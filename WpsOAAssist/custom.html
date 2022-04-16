@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>导入模板</title>
+    <meta charset="UTF-8" />
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="otherslib/lib/vue.min.js"></script>
+    <style type="text/css">
+      * {
+        box-sizing: border-box;
+      }
+
+      /*清除浮动*/
+      .clear:after {
+        content: "";
+        display: block;
+        clear: both;
+      }
+
+      html,
+      body,
+      #template {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .row {
+        width: 100%;
+        border-top: 2px solid #e7e7e7;
+      }
+
+      .row > div {
+        height: 100%;
+      }
+
+      #file_select {
+        width: 100%;
+        padding-left: 5%;
+      }
+
+      .def_control {
+        height: 55%;
+        width: 100%;
+        font-size: 18px;
+      }
+
+      .btn_box {
+        width: 16%;
+        float: right;
+        line-height: 4.5em;
+        margin-right: 3%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="template">
+      <div class="row" style="height: 50%; padding-top: 3%">
+        <div id="file_select">我是自定义弹窗，想做什么自己定</div>
+      </div>
+      <div class="row" style="height: 50%">
+        <div class="btn_box">
+          <button class="def_control" type="button" @click="cancel()">
+            取消
+          </button>
+        </div>
+        <div class="btn_box">
+          <button class="def_control" type="button" @click="onCustomClick()">
+            确定
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  function onCustomClick() {
+    window.opener = null;
+    window.open("", "_self", "");
+    window.close();
+    // wps.OAAssist.ShellExecute("ksowebstartupwps://");
+  }
+
+  function cancel() {
+    // 取消按钮
+    window.close();
+    // wps.OAAssist.ShellExecute("ksowebstartupwps://"); // 将WPS程序置前
+  }
+
+  var vm = new Vue({
+    el: "#template",
+    data: {
+      templateItem: -1,
+      templates: {},
+    },
+    methods: {},
+    mounted: function () {
+      this.onCustomClick();
+    },
+  });
+</script>
