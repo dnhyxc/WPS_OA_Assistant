@@ -641,9 +641,9 @@ const plugins = [
 
 #### demo 仓库地址
 
-git 仓库地址：[戳这里查看](https://github.com/dnhyxc/wps_oa)
+git 仓库地址：[戳这里查看](https://github.com/dnhyxc/WPS_OA_Assistant)
 
-code 压缩包：[戳这里下载](https://github.com/dnhyxc/wps_oa/archive/refs/heads/master.zip)
+code 压缩包：[戳这里下载](https://github.com/dnhyxc/WPS_OA_Assistant/archive/refs/heads/master.zip)
 
 #### 加载项（WpsOAAssist）文件结构说明
 
