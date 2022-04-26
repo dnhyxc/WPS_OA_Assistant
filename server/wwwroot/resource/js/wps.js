@@ -5,11 +5,11 @@ var wpsClient = new WpsClient(pluginType); //初始化一个多进程对象，�
 var clientStr = pluginName + pluginType + "ClientId";
 
 let notifyCallback = {
-  open() {},
-  save() {},
-  status() {},
-  taohong() {},
-  exit() {},
+  open() { },
+  save() { },
+  status() { },
+  taohong() { },
+  exit() { },
 };
 
 //单进程封装开始
@@ -691,9 +691,9 @@ function fillTemplate() {
   var templatePath = prompt(
     "请输入需要填充的数据的请求地址:",
     document.location.protocol +
-      "//" +
-      document.location.host +
-      "/getTemplateData"
+    "//" +
+    document.location.host +
+    "/getTemplateData"
   );
 
   _WpsInvoke([
@@ -1118,7 +1118,7 @@ function editDoc() {
       noMarksPdfUrl:
         "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红pdf问号名称.pdf",
       noRedHeadOriginalUrl:
-        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\未套红doc问号名称.docx",
+        "C:\\code\\Reinhold\\WPS_OA_Assistant\\server\\wwwroot\\uploaded\\未套红doc问号名称.docx",
       noRedHeadPdfUrl:
         "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\未套红pdf问号名称.pdf",
       originalUrl:
