@@ -541,6 +541,7 @@ function UploadFile(
   xhr.open("POST", uploadPath);
 
   var fileData = wps.FileSystem.readAsBinaryString(strPath);
+
   var data = new FakeFormData();
   if (strFieldName == "" || typeof strFieldName == "undefined") {
     //如果业务方没定义，默认设置为'file'
@@ -553,10 +554,17 @@ function UploadFile(
       return fileData;
     },
   });
+
+  console.log(data, 'strFieldName')
+
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4) {
-      if (xhr.status == 200) OnSuccess(xhr.response, saveType);
-      else OnFail(xhr.response);
+      if (xhr.status == 200) {
+        console.log(xhr.response, 'xhr.response')
+        OnSuccess(xhr.response, saveType);
+      } else {
+        OnFail(xhr.response);
+      }
     }
   };
   xhr.withCredentials = true;

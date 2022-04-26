@@ -397,8 +397,8 @@ function pDoChangeToOtherDocFormat(
     if (
       !wps.confirm(
         "当前文档将另存一份" +
-          l_suffix +
-          " 格式的副本，并上传到系统后台，请确认 ？"
+        l_suffix +
+        " 格式的副本，并上传到系统后台，请确认 ？"
       )
     ) {
       return;
@@ -471,7 +471,7 @@ function pDoChangeToOtherDocFormat(
 /**
  * 把文档转换成UOT在上传
  */
-function OnDoChangeToUOF() {}
+function OnDoChangeToUOF() { }
 
 /**
  *  打开WPS云文档的入口
@@ -792,9 +792,7 @@ function OnInsertDateClicked() {
  * @param {*} file
  * @returns
  */
-function manageFileData(fileURLObj, file) {
-  console.log(fileURLObj, "fileURLObj>>>>manageFileData");
-
+function manageFileData(fileURLObj, file, fileData) {
   var redHeadPdfUrl = fileURLObj.redHeadPdfUrl || fileURLObj.noRedHeadPdfUrl;
 
   return Object.assign({}, file, {
@@ -808,6 +806,8 @@ function manageFileData(fileURLObj, file) {
     redHeadPdfUrl: fileURLObj.redHeadPdfUrl,
     noRedHeadOriginalUrl: fileURLObj.noRedHeadOriginalUrl,
     noRedHeadPdfUrl: fileURLObj.noRedHeadPdfUrl,
+    noRedHeadOriginalHtml: fileURLObj.noRedHeadOriginalHtml,
+    fileData: fileData || ''
     // watermarkUrl: descUrl,
   });
 }
@@ -820,6 +820,9 @@ function OnUploadSuccessFinally(l_doc, fileURLObj) {
   var l_newFileName = GetDocParamsValue(l_doc, constStrEnum.NewFileName);
   var l_isCreate = GetDocParamsValue(l_doc, "isNew");
   var l_params = GetDocParamsValue(l_doc, "params");
+
+  var l_DocPath = l_doc.FullName; // 文件所在路径
+  const fileData = wps.FileSystem.readAsBinaryString(l_DocPath)
 
   var isCreate = l_params.index < 0;
 
@@ -843,12 +846,12 @@ function OnUploadSuccessFinally(l_doc, fileURLObj) {
       }
 
       if (typeof file === "object") {
-        file = manageFileData(fileURLObj, file);
+        file = manageFileData(fileURLObj, file, fileData);
         console.log(file, "file的类型为object");
       } else {
         console.log(file, "file的类型不是不是不是object");
         const objFile = { name: "正文.docx", type: "docx", url: file };
-        file = manageFileData(fileURLObj, objFile);
+        file = manageFileData(fileURLObj, objFile, fileData);
       }
 
       if (isCreate) {
@@ -924,13 +927,16 @@ function OnUploadSuccessFinally(l_doc, fileURLObj) {
 
       console.log("已通知业务系统，开始关闭公文 TAB");
 
+      wps.WpsApplication().ActiveDocument.TrackRevisions = true;
+      wps.WpsApplication().ActiveDocument.TrackRevisions = false;
+
       // 保存成功直接关闭
-      if (l_doc) {
-        console.log("OnUploadToServerSuccess: before Close");
-        l_doc.Close(-1); //保存文档后关闭
-        console.log("OnUploadToServerSuccess: after Close");
-        return;
-      }
+      // if (l_doc) {
+      //   console.log("OnUploadToServerSuccess: before Close");
+      //   l_doc.Close(-1); //保存文档后关闭
+      //   console.log("OnUploadToServerSuccess: after Close");
+      //   return;
+      // }
     })
     .catch(() => {
       alert("保存失败");
@@ -964,20 +970,23 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
     parseResp
   );
 
+  let fileURLObj = {}
+
   switch (saveType) {
     // 未套红源文件
     case SAVE_TYPE.ORGINAL_NO_RED_HEAD: {
       // 主动保存不涉及保存弹窗
       wps.PluginStorage.setItem(constStrEnum.CloseConfirmTip, false);
 
-      var fileURLObj = {
-        noRedHeadOriginalUrl: parseResp.fileUrl,
-      };
+      fileURLObj.noRedHeadOriginalUrl = parseResp.fileUrl,
+        // var fileURLObj = {
+        //   noRedHeadOriginalUrl: parseResp.fileUrl,
+        // };
 
-      wps.PluginStorage.setItem(
-        constStrEnum.SaveAllTemp,
-        JSON.stringify(fileURLObj)
-      );
+        wps.PluginStorage.setItem(
+          constStrEnum.SaveAllTemp,
+          JSON.stringify(fileURLObj)
+        );
 
       // 获取OA传入的 转其他格式上传属性
       const l_suffix = pGetSuffix(l_doc);
@@ -990,50 +999,52 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
         false,
         true,
         // SAVE_TYPE.HTML_HEAD
-        SAVE_TYPE.PDF_NO_RED_HEAD
-        // SAVE_TYPE.NO_RED_HTML_HEAD
+        // SAVE_TYPE.PDF_NO_RED_HEAD
+        SAVE_TYPE.NO_RED_HTML_HEAD
       );
       return;
     }
 
-    // // 未套红HTML
-    // case SAVE_TYPE.NO_RED_HTML_HEAD: {
-    //   // 主动保存不涉及保存弹窗
-    //   wps.PluginStorage.setItem(constStrEnum.CloseConfirmTip, false);
+    // 未套红HTML
+    case SAVE_TYPE.NO_RED_HTML_HEAD: {
+      // 主动保存不涉及保存弹窗
+      wps.PluginStorage.setItem(constStrEnum.CloseConfirmTip, false);
+      var saveAllTemp = wps.PluginStorage.getItem(constStrEnum.SaveAllTemp);
 
-    //   console.log(parseResp, "构造文件对象");
-    //   var fileURLObj = {
-    //     noRedHeadOriginalHtml: parseResp.fileUrl,
-    //   };
+      fileURLObj = JSON.parse(saveAllTemp);
 
-    //   wps.PluginStorage.setItem(
-    //     constStrEnum.SaveAllTemp,
-    //     JSON.stringify(fileURLObj)
-    //   );
+      console.log(parseResp, "构造文件对象");
+      fileURLObj.noRedHeadPdfUrl = parseResp.fileUrl
 
-    //   // 获取OA传入的 转其他格式上传属性
-    //   var l_suffix = '.html';
+      wps.PluginStorage.setItem(
+        constStrEnum.SaveAllTemp,
+        JSON.stringify(fileURLObj)
+      );
 
-    //   console.log(l_doc, "开始转存 HTMLLLLLLLLLLLLLLLLLLLLLLLLLLLHTML", l_suffix);
-    //   //调用转pdf格式函数，强制关闭转换修订痕迹，不弹出用户确认的对话框
-    //   pDoChangeToOtherDocFormat(
-    //     l_doc,
-    //     l_suffix,
-    //     false,
-    //     true,
-    //     SAVE_TYPE.PDF_NO_RED_HEAD
-    //   );
+      // 获取OA传入的 转其他格式上传属性
+      var l_suffix = '.html';
 
-    //   return;
-    // }
+      console.log(l_doc, "开始转存 HTMLLLLLLLLLLLLLLLLLLLLLLLLLLLHTML", l_suffix);
+      //调用转pdf格式函数，强制关闭转换修订痕迹，不弹出用户确认的对话框
+      pDoChangeToOtherDocFormat(
+        l_doc,
+        l_suffix,
+        false,
+        true,
+        SAVE_TYPE.PDF_NO_RED_HEAD
+      );
+
+      return;
+    }
 
     // 未套红 PDF
     case SAVE_TYPE.PDF_NO_RED_HEAD: {
       var saveAllTemp = wps.PluginStorage.getItem(constStrEnum.SaveAllTemp);
 
-      var fileURLObj = JSON.parse(saveAllTemp);
+      fileURLObj = JSON.parse(saveAllTemp);
 
-      fileURLObj.noRedHeadPdfUrl = parseResp.fileUrl;
+      fileURLObj.noRedHeadOriginalHtml = parseResp.fileUrl;
+      // fileURLObj.noRedHeadPdfUrl = parseResp.fileUrl;
 
       wps.PluginStorage.setItem(
         constStrEnum.SaveAllTemp,
@@ -1065,7 +1076,7 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
     // 套红源文件
     case SAVE_TYPE.ORGINAL_RED_HEAD: {
       var saveAllTemp = wps.PluginStorage.getItem(constStrEnum.SaveAllTemp);
-      var fileURLObj = JSON.parse(saveAllTemp);
+      fileURLObj = JSON.parse(saveAllTemp);
       fileURLObj.redHeadOriginalUrl = parseResp.fileUrl;
 
       wps.PluginStorage.setItem(
@@ -1084,7 +1095,8 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
         false,
         true,
         // SAVE_TYPE.PDF_RED_HEAD
-        l_suffix.length > 1 ? SAVE_TYPE.HTML_HEAD : SAVE_TYPE.PDF_RED_HEAD
+        SAVE_TYPE.HTML_HEAD
+        // l_suffix.length > 1 ? SAVE_TYPE.HTML_HEAD : SAVE_TYPE.PDF_RED_HEAD
       );
       return;
     }
@@ -1096,9 +1108,11 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
 
       var saveAllTemp = wps.PluginStorage.getItem(constStrEnum.SaveAllTemp);
 
-      var fileURLObj = JSON.parse(saveAllTemp);
+      fileURLObj = JSON.parse(saveAllTemp);
 
       fileURLObj.redHeadPdfUrl = parseResp.fileUrl;
+
+      console.log()
 
       wps.PluginStorage.setItem(
         constStrEnum.SaveAllTemp,
@@ -1125,16 +1139,15 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
     // 套红 PDF
     case SAVE_TYPE.PDF_RED_HEAD: {
       var saveAllTemp = wps.PluginStorage.getItem(constStrEnum.SaveAllTemp);
-      var fileURLObj = JSON.parse(saveAllTemp);
+      fileURLObj = JSON.parse(saveAllTemp);
 
       const l_suffix = pGetSuffix(l_doc);
 
-      if (l_suffix.length > 1) {
-        fileURLObj.redHeadOriginalHTMLUrl = parseResp.fileUrl;
-      } else {
-        fileURLObj.redHeadPdfUrl = parseResp.fileUrl;
-      }
-
+      fileURLObj.redHeadOriginalHTMLUrl = parseResp.fileUrl;
+      // if (l_suffix.length > 1) {
+      // } else {
+      //   fileURLObj.redHeadPdfUrl = parseResp.fileUrl;
+      // }
       wps.PluginStorage.removeItem(constStrEnum.SaveAllTemp);
 
       console.log("所有东西都保存结束，开始保存操作记录");
