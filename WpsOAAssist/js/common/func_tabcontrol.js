@@ -397,8 +397,8 @@ function pDoChangeToOtherDocFormat(
     if (
       !wps.confirm(
         "当前文档将另存一份" +
-        l_suffix +
-        " 格式的副本，并上传到系统后台，请确认 ？"
+          l_suffix +
+          " 格式的副本，并上传到系统后台，请确认 ？"
       )
     ) {
       return;
@@ -471,7 +471,7 @@ function pDoChangeToOtherDocFormat(
 /**
  * 把文档转换成UOT在上传
  */
-function OnDoChangeToUOF() { }
+function OnDoChangeToUOF() {}
 
 /**
  *  打开WPS云文档的入口
@@ -807,7 +807,7 @@ function manageFileData(fileURLObj, file, fileData) {
     noRedHeadOriginalUrl: fileURLObj.noRedHeadOriginalUrl,
     noRedHeadPdfUrl: fileURLObj.noRedHeadPdfUrl,
     noRedHeadOriginalHtml: fileURLObj.noRedHeadOriginalHtml,
-    fileData: fileData || ''
+    fileData: fileData || "",
     // watermarkUrl: descUrl,
   });
 }
@@ -821,8 +821,10 @@ function OnUploadSuccessFinally(l_doc, fileURLObj) {
   var l_isCreate = GetDocParamsValue(l_doc, "isNew");
   var l_params = GetDocParamsValue(l_doc, "params");
 
+  // 获取保存的文件流数据
   var l_DocPath = l_doc.FullName; // 文件所在路径
-  const fileData = wps.FileSystem.readAsBinaryString(l_DocPath)
+  console.log(l_DocPath, "l_DocPath");
+  const fileData = wps.FileSystem.readAsBinaryString(l_DocPath);
 
   var isCreate = l_params.index < 0;
 
@@ -963,7 +965,7 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
   // 上传成功回调返回的文件路径
   var parseResp = JSON.parse(resp) || {};
 
-  let fileURLObj = {}
+  let fileURLObj = {};
 
   switch (saveType) {
     // 未套红源文件
@@ -971,7 +973,7 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
       // 主动保存不涉及保存弹窗
       wps.PluginStorage.setItem(constStrEnum.CloseConfirmTip, false);
 
-      fileURLObj.noRedHeadOriginalUrl = parseResp.fileUrl,
+      (fileURLObj.noRedHeadOriginalUrl = parseResp.fileUrl),
         // var fileURLObj = {
         //   noRedHeadOriginalUrl: parseResp.fileUrl,
         // };
@@ -1007,7 +1009,7 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
       fileURLObj = JSON.parse(saveAllTemp);
 
       console.log(parseResp, "构造文件对象");
-      fileURLObj.noRedHeadPdfUrl = parseResp.fileUrl
+      fileURLObj.noRedHeadPdfUrl = parseResp.fileUrl;
 
       wps.PluginStorage.setItem(
         constStrEnum.SaveAllTemp,
@@ -1015,7 +1017,7 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
       );
 
       // 获取OA传入的 转其他格式上传属性
-      var l_suffix = '.html';
+      var l_suffix = ".html";
 
       //调用转pdf格式函数，强制关闭转换修订痕迹，不弹出用户确认的对话框
       pDoChangeToOtherDocFormat(
