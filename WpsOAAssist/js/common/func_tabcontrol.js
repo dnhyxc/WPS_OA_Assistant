@@ -860,15 +860,6 @@ function OnUploadSuccessFinally(l_doc, fileURLObj) {
         var nextIndex = list.length || 0;
         list.push(file);
         l_params.index = nextIndex;
-
-        console.log(
-          isCreate,
-          "isCreate>>>>>>>>>>isCreate",
-          nextIndex,
-          "nextIndex",
-          file,
-          "file"
-        );
       } else {
         if (l_params.index) {
           list[l_params.index] = file;
