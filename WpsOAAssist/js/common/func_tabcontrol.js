@@ -963,13 +963,6 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
   // 上传成功回调返回的文件路径
   var parseResp = JSON.parse(resp) || {};
 
-  console.log(
-    "saveType>>>>>",
-    saveType,
-    "成功上传服务端后的回调>>>>>>",
-    parseResp
-  );
-
   let fileURLObj = {}
 
   switch (saveType) {
@@ -1024,7 +1017,6 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
       // 获取OA传入的 转其他格式上传属性
       var l_suffix = '.html';
 
-      console.log(l_doc, "开始转存 HTMLLLLLLLLLLLLLLLLLLLLLLLLLLLHTML", l_suffix);
       //调用转pdf格式函数，强制关闭转换修订痕迹，不弹出用户确认的对话框
       pDoChangeToOtherDocFormat(
         l_doc,
@@ -1112,8 +1104,6 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
 
       fileURLObj.redHeadPdfUrl = parseResp.fileUrl;
 
-      console.log()
-
       wps.PluginStorage.setItem(
         constStrEnum.SaveAllTemp,
         JSON.stringify(fileURLObj)
@@ -1121,8 +1111,6 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
 
       // 获取OA传入的 转其他格式上传属性
       const l_suffix = pGetSuffix(l_doc);
-
-      console.log(l_suffix, "套红HTML URL");
 
       //调用转pdf格式函数，强制关闭转换修订痕迹，不弹出用户确认的对话框
       pDoChangeToOtherDocFormat(

@@ -555,12 +555,9 @@ function UploadFile(
     },
   });
 
-  console.log(data, 'strFieldName')
-
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4) {
       if (xhr.status == 200) {
-        console.log(xhr.response, 'xhr.response')
         OnSuccess(xhr.response, saveType);
       } else {
         OnFail(xhr.response);
