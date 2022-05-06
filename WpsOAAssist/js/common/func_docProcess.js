@@ -15,6 +15,12 @@ function NewFile(params) {
   } else {
     doc = wpsApp.Documents.Add(); //新增OA端文档
   }
+
+  // 新建时更改页边距
+  const selection = wpsApp.ActiveWindow.Selection;
+  selection.Range.PageSetup.LeftMargin = 71.999428; // 设置左边距为 2.54
+  selection.Range.PageSetup.RightMargin = 71.999428; // 设置左边距为 2.54
+
   wps.PluginStorage.setItem(constStrEnum.IsInCurrOADocOpen, false);
 
   //检查系统临时文件目录是否能访问
@@ -156,6 +162,12 @@ function OpenFile(params) {
   if (!doc) {
     return null;
   }
+
+  // 更新正文时更改页边距
+  const wpsApp = wps.WpsApplication();
+  const selection = wpsApp.ActiveWindow.Selection;
+  selection.Range.PageSetup.LeftMargin = 71.999428; // 设置左边距为 2.54
+  selection.Range.PageSetup.RightMargin = 71.999428; // 设置左边距为 2.54
 
   pOpenFile(doc, params, l_IsOnlineDoc);
 }
@@ -1164,12 +1176,24 @@ function pInsertRInedFieldAsOneBk(doc) {
         return;
       }
 
-      // if (key === "fj") {
-      //   bookmark.Range.Text = '附件1.png' + '\n' + ("      " + '附件2222.png') + '\n' + ("      " + '附件33333.png');
-      //   console.log(bookmark.Range, 'bookmark.Range')
-      // }
-
-      bookmark.Range.Text = currentValue;
+      if (key === "fj") {
+        try {
+          const enclosure = JSON.parse(currentValue)
+          const res = enclosure.map((i, index) => {
+            if (index !== 0) {
+              return "      " + i + '\n'
+            } else {
+              return i + '\n'
+            }
+          })
+          bookmark.Range.Text = res && res.join('')
+          // '附件1.png' + '\n' + ("      " + '附件2222.png') + '\n' + ("      " + '附件33333.png');
+        } catch (error) {
+          throw new Error(error)
+        }
+      } else {
+        bookmark.Range.Text = currentValue;
+      }
 
       // var isHead = ['密级'].includes(key)
       var isHead = [].includes(key);
@@ -1343,20 +1367,16 @@ function InsertRedHeadDoc(doc, callback) {
   }
 
   if ((bookmarkStart == "" || bookmarkEnd == "") && bkInsertFile == '') {
-    console.log('-------------1111111111111111111111------------')
     alert("套红头失败，您选择的红头模板没有正文书签！");
     throw new Error("套红头失败，您选择的红头模板没有正文书签！");
   } else if (bookmarkStart && bookmarkStart && bkInsertFile == '') {
-    console.log('-------------222222222222222222222------------')
     pInsertRInedHead(doc, strFile, bookmarkStart, bookmarkEnd);
   }
 
   if (bkInsertFile == '' && (bookmarkStart == '' || bookmarkEnd == '')) {
-    console.log('-------------333333333333333333333333------------')
     alert("套红头失败，您选择的红头模板没有正文书签！");
     throw new Error("套红头失败，您选择的红头模板没有正文书签！");
   } else if (bkInsertFile) {
-    console.log('-------------4444444444444444444444------------')
     pInsertRInedHeadAsOneBk(doc, strFile, bkInsertFile);
   }
 }

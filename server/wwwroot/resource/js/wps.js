@@ -1123,7 +1123,7 @@ function insertRedHead() {
     _taskLevel: "缓急",
     secretClass: "密级1",
     department: "高级的前端部门",
-    enclosure: ['附件1.png', '附件222.png', '附件121dsa.png']
+    enclosure: JSON.stringify(['附件1.png', '附件222.png', '附件121dsa.png', '附件hdhadhadh.png', 'dhasdhsa.jpg', 'djhsajdha.doc'])
   };
 
   // var bookMarksStart = "正文内容B";

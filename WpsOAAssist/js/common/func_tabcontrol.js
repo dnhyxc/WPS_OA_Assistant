@@ -952,7 +952,6 @@ function pGetSuffix(l_doc, type) {
  */
 function OnUploadToServerSuccess(resp, saveType = 1) {
   var l_doc = wps.WpsApplication().ActiveDocument;
-
   // 上传成功回调返回的文件路径
   var parseResp = JSON.parse(resp) || {};
 
