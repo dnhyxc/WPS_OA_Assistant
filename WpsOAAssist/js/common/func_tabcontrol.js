@@ -397,8 +397,8 @@ function pDoChangeToOtherDocFormat(
     if (
       !wps.confirm(
         "当前文档将另存一份" +
-          l_suffix +
-          " 格式的副本，并上传到系统后台，请确认 ？"
+        l_suffix +
+        " 格式的副本，并上传到系统后台，请确认 ？"
       )
     ) {
       return;
@@ -471,7 +471,7 @@ function pDoChangeToOtherDocFormat(
 /**
  * 把文档转换成UOT在上传
  */
-function OnDoChangeToUOF() {}
+function OnDoChangeToUOF() { }
 
 /**
  *  打开WPS云文档的入口
@@ -964,15 +964,15 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
       // 主动保存不涉及保存弹窗
       wps.PluginStorage.setItem(constStrEnum.CloseConfirmTip, false);
 
-      (fileURLObj.noRedHeadOriginalUrl = parseResp.fileUrl),
-        // var fileURLObj = {
-        //   noRedHeadOriginalUrl: parseResp.fileUrl,
-        // };
+      fileURLObj.noRedHeadOriginalUrl = parseResp.fileUrl
+      // var fileURLObj = {
+      //   noRedHeadOriginalUrl: parseResp.fileUrl,
+      // };
 
-        wps.PluginStorage.setItem(
-          constStrEnum.SaveAllTemp,
-          JSON.stringify(fileURLObj)
-        );
+      wps.PluginStorage.setItem(
+        constStrEnum.SaveAllTemp,
+        JSON.stringify(fileURLObj)
+      );
 
       // 获取OA传入的 转其他格式上传属性
       const l_suffix = pGetSuffix(l_doc);
@@ -1062,6 +1062,9 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
     case SAVE_TYPE.ORGINAL_RED_HEAD: {
       var saveAllTemp = wps.PluginStorage.getItem(constStrEnum.SaveAllTemp);
       fileURLObj = JSON.parse(saveAllTemp);
+
+      console.log(parseResp, 'parseResp>>>>套红源文件')
+
       fileURLObj.redHeadOriginalUrl = parseResp.fileUrl;
 
       wps.PluginStorage.setItem(
@@ -1095,6 +1098,8 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
 
       fileURLObj = JSON.parse(saveAllTemp);
 
+      console.log(parseResp, 'parseResp>>>>套红HTML')
+
       fileURLObj.redHeadPdfUrl = parseResp.fileUrl;
 
       wps.PluginStorage.setItem(
@@ -1123,6 +1128,8 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
       fileURLObj = JSON.parse(saveAllTemp);
 
       const l_suffix = pGetSuffix(l_doc);
+
+      console.log(parseResp, 'parseResp>>>>套红 PDF')
 
       fileURLObj.redHeadOriginalHTMLUrl = parseResp.fileUrl;
       // if (l_suffix.length > 1) {

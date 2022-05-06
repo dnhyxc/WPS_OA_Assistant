@@ -794,6 +794,8 @@ function getRedTemplateUrl(l_doc) {
   return new Promise((resolve, reject) => {
     var insertFileUrl = GetDocParamsValue(l_doc, constStrEnum.insertFileUrl);
 
+    console.log(insertFileUrl, 'insertFileUrl>>>>>>>>>>>>>>>>>>')
+
     if (!insertFileUrl) {
       //   alert('模板未配置红头！')
       reject();

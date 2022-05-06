@@ -277,6 +277,34 @@ var fieldObjEnum = {
    * 创建时间/拟稿时间
    */
   // CREAT_TIME: 'creatTime',
+
+  // 以下是单正文书签套红标签 >>>>>>>>>>>>>>>>>>>>>
+
+  // 密级
+  mj: 'secretClass',
+  // 缓急
+  // hj: 'urgencyLevel',
+  hj: '_taskLevel',
+  // 正文标题
+  zwbt: 'title',
+  // 文号
+  fwzh: 'refNo',
+  // 签发人
+  qfr: 'issUer',
+  // 印发机关
+  yfjg: 'signingUnit',
+  // 印发日期
+  yfrq: 'printDate',
+  // 签发日期
+  qfrq: 'issueDate',
+  // 抄送
+  csjg: 'copySend',
+  // 主送
+  zsjg: 'mainSend',
+  // 单位署名
+  dwsm: 'signatureUnit',
+  // 附件
+  fj: 'enclosure',
 };
 
 // 更改：增加保存类型
