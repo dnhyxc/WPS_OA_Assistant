@@ -1037,7 +1037,7 @@ function customDoc() {
           insertFileUrl: GetDemoPath("wps广西移动公司部门会议纪要.doc"),
           bkInsertFileStart: bookMarksStart,
           bkInsertFileEnd: bookMarksEnd,
-          bodyTemplateUrl: "",
+          bodyTemplateUrl: GetDemoPath("qqqqq.doc"),
           userName: "dnhyxc",
           suffix: ".pdf",
           uploadWithAppendPath: "1",
@@ -1145,7 +1145,7 @@ function insertRedHead() {
           uploadFieldName: uploadFieldName,
           insertFileUrl: GetDemoPath("temp.doc"),
           bkInsertFile,
-          bodyTemplateUrl: "",
+          // bodyTemplateUrl: GetDemoPath("moa_hong.docm"),
           userName: "dnhyxc",
           suffix: ".pdf",
           uploadWithAppendPath: "1",
@@ -1280,7 +1280,7 @@ function editDoc() {
           insertFileUrl: GetDemoPath("wps广西移动公司部门会议纪要.doc"), // 套红模板
           bkInsertFileStart: bookMarksStart, // 套红开始位置标签
           bkInsertFileEnd: bookMarksEnd, // 套红结束位置标签
-          bodyTemplateUrl: "", // 正文模板，一般用不着
+          bodyTemplateUrl: GetDemoPath("qqqqq.doc"), // 正文模板，一般用不着
           userName: "dnhyxc",
           suffix: ".pdf,.html", // 需要保存的文件格式
           uploadWithAppendPath: "1", // 需要保存的文件 saveType，对应pdf

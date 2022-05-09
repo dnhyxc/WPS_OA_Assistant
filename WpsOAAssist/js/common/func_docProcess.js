@@ -1,5 +1,47 @@
 // ====================== 源文件 ======================
 /**
+ * moa Macro
+ * 宏由 dnhyxc 录制，时间: 2022/05/09
+ */
+function moa() {
+  const wpsApp = wps.WpsApplication();
+  const Selection = wpsApp.ActiveWindow.Selection;
+
+  Selection.Font.Name = "仿宋";
+  (obj => {
+    obj.Size = 16;
+    obj.SizeBi = 16;
+  })(Selection.Font);
+  wpsApp.ActiveDocument.Range(0, 0).PageSetup.LeftMargin = 56.692459;
+  wpsApp.ActiveDocument.Range(0, 0).PageSetup.LeftMargin = 71.999428;
+  wpsApp.ActiveDocument.Range(0, 0).PageSetup.RightMargin = 56.692459;
+  wpsApp.ActiveDocument.Range(0, 0).PageSetup.RightMargin = 71.999428;
+  Selection.SetRange(0, 0);
+  wpsApp.ActiveDocument.Range(0, 0).Start = 0;
+  (obj => {
+    obj.CharacterUnitFirstLineIndent = 2;
+    obj.FirstLineIndent = 0;
+    obj.CharacterUnitFirstLineIndent = 2;
+    obj.FirstLineIndent = 0;
+    obj.DisableLineHeightGrid = 0;
+    // obj.ReadingOrder = wdReadingOrderLtr;
+    obj.AutoAdjustRightIndent = -1;
+    obj.WidowControl = 0;
+    obj.KeepWithNext = 0;
+    obj.KeepTogether = 0;
+    obj.PageBreakBefore = 0;
+    obj.FarEastLineBreakControl = -1;
+    obj.WordWrap = -1;
+    obj.HangingPunctuation = -1;
+    obj.HalfWidthPunctuationOnTopOfLine = 0;
+    obj.AddSpaceBetweenFarEastAndAlpha = -1;
+    obj.AddSpaceBetweenFarEastAndDigit = -1;
+    obj.BaseLineAlignment = wdBaselineAlignAuto;
+  })(Selection.ParagraphFormat);
+  wpsApp.ActiveDocument.AcceptAllRevisions();
+}
+
+/**
  * 从OA调用传来的指令，打开本地新建文件
  * @param {*} fileUrl 文件url路径
  */
@@ -76,6 +118,8 @@ function NewFile(params) {
 
   // 更改：增加自定义 pNewFile() 方法
   pNewFile(doc, params);
+
+  doc && moa()
 
   return doc; //返回新创建的Document对象
 }
@@ -180,9 +224,12 @@ function OpenFile(params) {
  * @param {*} isOnlineDoc 在线打开/落地打开
  */
 function pNewFile(doc, params, isOnlineDoc) {
-  if (GetParamsValue(params, constStrEnum.bodyTemplateUrl)) {
+  console.log(GetParamsValue(params, constStrEnum.bodyTemplateUrl), params.bodyTemplateUrl, 'GetParamsValue(params, constStrEnum.bodyTemplateUrl)')
+
+  if (params.bodyTemplateUrl) {
+    // if (GetParamsValue(params, constStrEnum.bodyTemplateUrl)) {
     console.log("开始插入预设正文模板");
-    InsertPresetTemplateDoc(doc);
+    InsertPresetTemplateDoc(doc, params);
   }
 
   // if (GetParamsValue(params, constStrEnum.insertFileUrl)) {
@@ -257,16 +304,22 @@ function pOpenFile(doc, params, isOnlineDoc) {
  *  doc : 需要存在以下属性
  *  'bodyTemplateUrl':'', 正文模板 URL
  */
-function InsertPresetTemplateDoc(doc) {
+function InsertPresetTemplateDoc(doc, params) {
   // 插入正文模板
   if (!doc) {
     alert("文档不存在!");
     return;
   }
 
-  var bodyTemplateUrl = GetDocParamsValue(doc, constStrEnum.bodyTemplateUrl);
+  console.log(constStrEnum, doc, 'constStrEnum')
+
+  var bodyTemplateUrl = params.bodyTemplateUrl;
+  // var bodyTemplateUrl = GetDocParamsValue(doc, constStrEnum.bodyTemplateUrl);
+
+  console.log(bodyTemplateUrl, 'bodyTemplateUrl')
+
   if (!bodyTemplateUrl) {
-    alert("未获取到系统传入正文模板URL路径，不能正常插入模板");
+    console.log("未获取到系统传入正文模板URL路径，不能正常插入模板");
     return;
   }
 
