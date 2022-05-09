@@ -37,6 +37,10 @@
                     <button id="customBtn" label="自定义按钮" getLabel="OnGetLabel" onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
                     <separator id="sepOAExtend" getVisible="OnGetVisible" />
                 </group>
+                <group id="grpRevision" label="自动排版功能组" getVisible="OnGetVisible">
+                    <button id="formatDoc" label="自动排版" onAction="OnAction" getLabel="OnGetLabel" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large" />
+                    <separator id="sepWPSRevision" getVisible="OnGetVisible" />
+                </group>
                 <group id="grpRevision" label="OA修订功能按钮组" getVisible="OnGetVisible">
                     <box id="boxRevsion1" boxStyle="horizontal" visible="true">
                         <button id="btnOpenRevision" label="打开修订" onAction="OnAction" getLabel="OnGetLabel" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large" />
