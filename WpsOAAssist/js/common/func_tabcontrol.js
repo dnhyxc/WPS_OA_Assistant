@@ -1490,97 +1490,199 @@ function OnCustomBtnClick() {
   OnShowDialog("custom.html", "自定义弹窗", 560, 350);
 }
 
-// 宏代码
-// function moa() {
-//   console.log('moa++++++++自动排版~~~~~~~~~~~~~~~~~~')
-//   const wpsApp = wps.WpsApplication();
-//   const Selection = wpsApp.ActiveWindow.Selection;
+/**
+ * 网格格式
+ * wpsApp.Options.DisplayGridLines：是否开启网格，true:开启，false：关闭
+ */
+function GridMacro(wpsApp) {
+  wpsApp.ActiveWindow.Selection.Range.PageSetup.LayoutMode = wps.Enum.wdLayoutModeGenko;
+  (obj => {
+    obj.MirrorMargins = 0;
+    (obj => {
+      obj.SetCount(1)
+      obj.EvenlySpaced = -1
+      obj.LineBetween = 0
+      obj.SetCount(1)
+      obj.Spacing = 0
+    })(obj.TextColumns)
+    obj.Orientation = wps.Enum.wdOrientPortrait
+    obj.GutterPos = wps.Enum.wdGutterPosLeft
+    obj.TopMargin = 71.999428
+    obj.BottomMargin = 71.999428
+    obj.Gutter = 0
+    obj.PageWidth = 595.270813
+    obj.PageHeight = 841.883057
+    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin
+    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin
+    obj.Orientation = wps.Enum.wdOrientPortrait
+    obj.GutterPos = wps.Enum.wdGutterPosLeft
+    obj.TopMargin = 71.999428
+    obj.BottomMargin = 71.999428
+    obj.Gutter = 0
+    obj.PageWidth = 595.270813
+    obj.PageHeight = 841.883057
+    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin
+    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin
+    obj.FooterDistance = 49.605999
+    obj.OddAndEvenPagesHeaderFooter = 0
+    obj.DifferentFirstPageHeaderFooter = 0
+    obj.LayoutMode = wps.Enum.wdLayoutModeGenko
+  })(wpsApp.ActiveDocument.PageSetup);
 
-//   // 选中全文
-//   Selection.WholeStory();
-//   Selection.SetRange(0, 198);
-//   Selection.Font.Name = "宋体";
-//   (obj => {
-//     obj.Size = 16;
-//     obj.SizeBi = 16;
-//   })(Selection.Font);
-//   wpsApp.ActiveDocument.Range(0, 0).PageSetup.LeftMargin = 71.999428;
-//   wpsApp.ActiveDocument.Range(0, 0).PageSetup.RightMargin = 71.999428;
-//   Selection.SetRange(0, 0);
-//   wpsApp.ActiveDocument.Range(0, 0).Start = 0;
-//   (obj => {
-//     obj.CharacterUnitFirstLineIndent = 2;
-//     obj.FirstLineIndent = 0;
-//     obj.CharacterUnitFirstLineIndent = 2;
-//     obj.FirstLineIndent = 0;
-//     obj.DisableLineHeightGrid = 0;
-//     // obj.ReadingOrder = wdReadingOrderLtr;
-//     obj.AutoAdjustRightIndent = -1;
-//     obj.WidowControl = 0;
-//     obj.KeepWithNext = 0;
-//     obj.KeepTogether = 0;
-//     obj.PageBreakBefore = 0;
-//     obj.FarEastLineBreakControl = -1;
-//     obj.WordWrap = -1;
-//     obj.HangingPunctuation = -1;
-//     obj.HalfWidthPunctuationOnTopOfLine = 0;
-//     obj.AddSpaceBetweenFarEastAndAlpha = -1;
-//     obj.AddSpaceBetweenFarEastAndDigit = -1;
-//     // obj.BaseLineAlignment = wdBaselineAlignAuto;
-//   })(Selection.ParagraphFormat);
-//   wpsApp.ActiveDocument.AcceptAllRevisions();
-//   Selection.SetRange(197, 197);
-//   Selection.WholeStory();
-// }
+  (obj => {
+    obj.MeasurementUnit = wps.Enum.wdCentimeters
+    obj.UseCharacterUnit = true
+  })(wpsApp.Options)
+}
+
+// 设置区域网格
+function AreaGridMacro(wpsApp) {
+  wpsApp.ActiveWindow.ActivePane.VerticalPercentScrolled = 0
+  wps.Application.Left = 0
+  wps.Application.Top = 37
+  wps.Application.WindowState = wps.Enum.wdWindowStateMaximize
+  wps.Application.Width = 1920
+  wps.Application.Height = 983;
+  (obj => {
+    obj.EvenlySpaced = -1
+    obj.LineBetween = 0
+    obj.SetCount(1)
+    obj.Spacing = 0
+  })(wpsApp.ActiveWindow.Selection.Range.PageSetup.TextColumns)
+  wpsApp.ActiveDocument.Range(0, 0).InsertBreak(wps.Enum.wdSectionBreakNextPage);
+  (obj => {
+    obj.MirrorMargins = 0;
+    (obj => {
+      obj.SetCount(1)
+      obj.EvenlySpaced = -1
+      obj.LineBetween = 0
+      obj.SetCount(1)
+      obj.Spacing = 0
+    })(obj.TextColumns)
+    obj.Orientation = wps.Enum.wdOrientPortrait
+    obj.GutterPos = wps.Enum.wdGutterPosLeft
+    obj.TopMargin = 71.999428
+    obj.BottomMargin = 71.999428
+    obj.Gutter = 0
+    obj.PageWidth = 595.270813
+    obj.PageHeight = 841.883057
+    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin
+    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin
+    obj.Orientation = wps.Enum.wdOrientPortrait
+    obj.GutterPos = wps.Enum.wdGutterPosLeft
+    obj.TopMargin = 71.999428
+    obj.BottomMargin = 71.999428
+    obj.Gutter = 0
+    obj.PageWidth = 595.270813
+    obj.PageHeight = 841.883057
+    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin
+    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin
+    obj.FooterDistance = 49.605999
+    obj.OddAndEvenPagesHeaderFooter = 0
+    obj.DifferentFirstPageHeaderFooter = 0
+    obj.LayoutMode = wps.Enum.wdLayoutModeGenko
+  })(wpsApp.ActiveDocument.Range(200, 201).PageSetup);
+  (obj => {
+    obj.MeasurementUnit = wps.Enum.wdCentimeters
+    obj.UseCharacterUnit = true
+  })(wpsApp.Options)
+  wpsApp.ActiveWindow.ActivePane.VerticalPercentScrolled = 0
+}
 
 /**
- * Macro2 Macro
- * 宏由 dnhyxc 录制，时间: 2022/05/09
- * wps.WpsApplication().Options 配置项
+ * 取消设置网格
+ * Selection.SetRange(0, 0);起始位置
+ * Selection.EndKey(wdStory, wdMove);结束位置
  */
-function Macro2() {
-  const wpsApp = wps.WpsApplication();
-  const Selection = wpsApp.ActiveWindow.Selection;
-  Selection.WholeStory();
+function DisplayGridMacro(wpsApp) {
+  wpsApp.Options.DisplayGridLines = false
+  wpsApp.ActiveWindow.Selection.Range.PageSetup.LayoutMode = wps.Enum.wdLayoutModeLineGrid;
+  (obj => {
+    obj.MirrorMargins = 0;
+    (obj => {
+      obj.SetCount(1)
+      obj.EvenlySpaced = -1
+      obj.LineBetween = 0
+      obj.SetCount(1)
+      obj.Spacing = 0
+    })(obj.TextColumns)
+    obj.Orientation = wps.Enum.wdOrientPortrait
+    obj.GutterPos = wps.Enum.wdGutterPosLeft
+    obj.TopMargin = 71.999428
+    obj.BottomMargin = 71.999428
+    obj.Gutter = 0
+    obj.PageWidth = 595.270813
+    obj.PageHeight = 841.883057
+    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin
+    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin
+    obj.Orientation = wps.Enum.wdOrientPortrait
+    obj.GutterPos = wps.Enum.wdGutterPosLeft
+    obj.TopMargin = 71.999428
+    obj.BottomMargin = 71.999428
+    obj.Gutter = 0
+    obj.PageWidth = 595.270813
+    obj.PageHeight = 841.883057
+    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin
+    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin
+    obj.FooterDistance = 49.605999
+    obj.OddAndEvenPagesHeaderFooter = 0
+    obj.DifferentFirstPageHeaderFooter = 0
+    obj.LayoutMode = wps.Enum.wdLayoutModeLineGrid
+  })(wpsApp.ActiveDocument.PageSetup);
+  (obj => {
+    obj.MeasurementUnit = wps.Enum.wdCentimeters
+    obj.UseCharacterUnit = true
+  })(wpsApp.Options)
+}
 
-  if (wpsApp.Options.DisplayGridLines) {
-    console.log(wpsApp.Options.DisplayGridLines, 'wpsApp——options')
-    wpsApp.Options.DisplayGridLines = false
-  }
+/**
+ * 文档首行缩进、字符大小、字体格式
+ * 由 dnh 设置，时间: 2022/05/09
+ */
+function Macro() {
+  const wpsApp = wps.WpsApplication()
+  const { Selection } = wpsApp.ActiveWindow
 
+  Selection.WholeStory()
   Selection.Font.Name = "仿宋_GB2312";
   (obj => {
-    obj.Size = 16;
-    obj.SizeBi = 16;
+    obj.Size = 16
+    obj.SizeBi = 16
   })(Selection.Font);
 
   (obj => {
-    obj.CharacterUnitFirstLineIndent = 2;
-    obj.FirstLineIndent = 0;
-    obj.CharacterUnitFirstLineIndent = 2;
-    obj.FirstLineIndent = 0;
-    obj.DisableLineHeightGrid = 0;
-    // obj.ReadingOrder = wdReadingOrderLtr;
-    obj.AutoAdjustRightIndent = -1;
-    obj.WidowControl = 0;
-    obj.KeepWithNext = 0;
-    obj.KeepTogether = 0;
-    obj.PageBreakBefore = 0;
-    obj.FarEastLineBreakControl = -1;
-    obj.WordWrap = -1;
-    obj.HangingPunctuation = -1;
-    obj.HalfWidthPunctuationOnTopOfLine = 0;
-    obj.AddSpaceBetweenFarEastAndAlpha = -1;
-    obj.AddSpaceBetweenFarEastAndDigit = -1;
-    // obj.BaseLineAlignment = wdBaselineAlignAuto;
-  })(Selection.ParagraphFormat);
-  Selection.SetRange(0, 0);
-  wpsApp.ActiveDocument.AcceptAllRevisions();
+    obj.CharacterUnitFirstLineIndent = 2
+    obj.FirstLineIndent = 0
+    obj.CharacterUnitFirstLineIndent = 2
+    obj.FirstLineIndent = 0
+    obj.ReadingOrder = wps.Enum.wdReadingOrderLtr
+    obj.DisableLineHeightGrid = 0
+    obj.AutoAdjustRightIndent = -1
+    obj.WidowControl = 0
+    obj.KeepWithNext = 0
+    obj.KeepTogether = 0
+    obj.PageBreakBefore = 0
+    obj.FarEastLineBreakControl = -1
+    obj.WordWrap = -1
+    obj.HangingPunctuation = -1
+    obj.HalfWidthPunctuationOnTopOfLine = 0
+    obj.AddSpaceBetweenFarEastAndAlpha = -1
+    obj.AddSpaceBetweenFarEastAndDigit = -1
+    obj.BaseLineAlignment = wps.Enum.wdBaselineAlignAuto
+  })(Selection.ParagraphFormat)
+  Selection.SetRange(0, 0)
+  wpsApp.ActiveDocument.AcceptAllRevisions()
+
+  if (!wpsApp.Options.DisplayGridLines) {
+    DisplayGridMacro(wpsApp)
+  } else {
+    // AreaGridMacro(wpsApp)
+    GridMacro(wpsApp)
+  }
 }
 
 function OnFormatClick() {
-  Macro2()
-  console.log('自动排版~~~~~~~~~~~~~~~~~~')
+  Macro()
 }
 
 //自定义菜单按钮的点击执行事件
