@@ -397,8 +397,8 @@ function pDoChangeToOtherDocFormat(
     if (
       !wps.confirm(
         "当前文档将另存一份" +
-        l_suffix +
-        " 格式的副本，并上传到系统后台，请确认 ？"
+          l_suffix +
+          " 格式的副本，并上传到系统后台，请确认 ？"
       )
     ) {
       return;
@@ -471,7 +471,7 @@ function pDoChangeToOtherDocFormat(
 /**
  * 把文档转换成UOT在上传
  */
-function OnDoChangeToUOF() { }
+function OnDoChangeToUOF() {}
 
 /**
  *  打开WPS云文档的入口
@@ -963,7 +963,7 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
       // 主动保存不涉及保存弹窗
       wps.PluginStorage.setItem(constStrEnum.CloseConfirmTip, false);
 
-      fileURLObj.noRedHeadOriginalUrl = parseResp.fileUrl
+      fileURLObj.noRedHeadOriginalUrl = parseResp.fileUrl;
       // var fileURLObj = {
       //   noRedHeadOriginalUrl: parseResp.fileUrl,
       // };
@@ -1062,7 +1062,7 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
       var saveAllTemp = wps.PluginStorage.getItem(constStrEnum.SaveAllTemp);
       fileURLObj = JSON.parse(saveAllTemp);
 
-      console.log(parseResp, 'parseResp>>>>套红源文件')
+      console.log(parseResp, "parseResp>>>>套红源文件");
 
       fileURLObj.redHeadOriginalUrl = parseResp.fileUrl;
 
@@ -1097,7 +1097,7 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
 
       fileURLObj = JSON.parse(saveAllTemp);
 
-      console.log(parseResp, 'parseResp>>>>套红HTML')
+      console.log(parseResp, "parseResp>>>>套红HTML");
 
       fileURLObj.redHeadPdfUrl = parseResp.fileUrl;
 
@@ -1128,7 +1128,7 @@ function OnUploadToServerSuccess(resp, saveType = 1) {
 
       const l_suffix = pGetSuffix(l_doc);
 
-      console.log(parseResp, 'parseResp>>>>套红 PDF')
+      console.log(parseResp, "parseResp>>>>套红 PDF");
 
       fileURLObj.redHeadOriginalHTMLUrl = parseResp.fileUrl;
       // if (l_suffix.length > 1) {
@@ -1495,98 +1495,101 @@ function OnCustomBtnClick() {
  * wpsApp.Options.DisplayGridLines：是否开启网格，true:开启，false：关闭
  */
 function GridMacro(wpsApp) {
-  wpsApp.ActiveWindow.Selection.Range.PageSetup.LayoutMode = wps.Enum.wdLayoutModeGenko;
-  (obj => {
+  wpsApp.ActiveWindow.Selection.Range.PageSetup.LayoutMode =
+    wps.Enum.wdLayoutModeGenko;
+  ((obj) => {
     obj.MirrorMargins = 0;
-    (obj => {
-      obj.SetCount(1)
-      obj.EvenlySpaced = -1
-      obj.LineBetween = 0
-      obj.SetCount(1)
-      obj.Spacing = 0
-    })(obj.TextColumns)
-    obj.Orientation = wps.Enum.wdOrientPortrait
-    obj.GutterPos = wps.Enum.wdGutterPosLeft
-    obj.TopMargin = 71.999428
-    obj.BottomMargin = 71.999428
-    obj.Gutter = 0
-    obj.PageWidth = 595.270813
-    obj.PageHeight = 841.883057
-    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin
-    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin
-    obj.Orientation = wps.Enum.wdOrientPortrait
-    obj.GutterPos = wps.Enum.wdGutterPosLeft
-    obj.TopMargin = 71.999428
-    obj.BottomMargin = 71.999428
-    obj.Gutter = 0
-    obj.PageWidth = 595.270813
-    obj.PageHeight = 841.883057
-    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin
-    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin
-    obj.FooterDistance = 49.605999
-    obj.OddAndEvenPagesHeaderFooter = 0
-    obj.DifferentFirstPageHeaderFooter = 0
-    obj.LayoutMode = wps.Enum.wdLayoutModeGenko
+    ((obj) => {
+      obj.SetCount(1);
+      obj.EvenlySpaced = -1;
+      obj.LineBetween = 0;
+      obj.SetCount(1);
+      obj.Spacing = 0;
+    })(obj.TextColumns);
+    obj.Orientation = wps.Enum.wdOrientPortrait;
+    obj.GutterPos = wps.Enum.wdGutterPosLeft;
+    obj.TopMargin = 71.999428;
+    obj.BottomMargin = 71.999428;
+    obj.Gutter = 0;
+    obj.PageWidth = 595.270813;
+    obj.PageHeight = 841.883057;
+    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin;
+    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin;
+    obj.Orientation = wps.Enum.wdOrientPortrait;
+    obj.GutterPos = wps.Enum.wdGutterPosLeft;
+    obj.TopMargin = 71.999428;
+    obj.BottomMargin = 71.999428;
+    obj.Gutter = 0;
+    obj.PageWidth = 595.270813;
+    obj.PageHeight = 841.883057;
+    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin;
+    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin;
+    obj.FooterDistance = 49.605999;
+    obj.OddAndEvenPagesHeaderFooter = 0;
+    obj.DifferentFirstPageHeaderFooter = 0;
+    obj.LayoutMode = wps.Enum.wdLayoutModeGenko;
   })(wpsApp.ActiveDocument.PageSetup);
 
-  (obj => {
-    obj.MeasurementUnit = wps.Enum.wdCentimeters
-    obj.UseCharacterUnit = true
-  })(wpsApp.Options)
+  ((obj) => {
+    obj.MeasurementUnit = wps.Enum.wdCentimeters;
+    obj.UseCharacterUnit = true;
+  })(wpsApp.Options);
 }
 
 // 设置区域网格
 function AreaGridMacro(wpsApp) {
-  wpsApp.ActiveWindow.ActivePane.VerticalPercentScrolled = 0
-  wps.Application.Left = 0
-  wps.Application.Top = 37
-  wps.Application.WindowState = wps.Enum.wdWindowStateMaximize
-  wps.Application.Width = 1920
+  wpsApp.ActiveWindow.ActivePane.VerticalPercentScrolled = 0;
+  wps.Application.Left = 0;
+  wps.Application.Top = 37;
+  wps.Application.WindowState = wps.Enum.wdWindowStateMaximize;
+  wps.Application.Width = 1920;
   wps.Application.Height = 983;
-  (obj => {
-    obj.EvenlySpaced = -1
-    obj.LineBetween = 0
-    obj.SetCount(1)
-    obj.Spacing = 0
-  })(wpsApp.ActiveWindow.Selection.Range.PageSetup.TextColumns)
-  wpsApp.ActiveDocument.Range(0, 0).InsertBreak(wps.Enum.wdSectionBreakNextPage);
-  (obj => {
+  ((obj) => {
+    obj.EvenlySpaced = -1;
+    obj.LineBetween = 0;
+    obj.SetCount(1);
+    obj.Spacing = 0;
+  })(wpsApp.ActiveWindow.Selection.Range.PageSetup.TextColumns);
+  wpsApp.ActiveDocument.Range(0, 0).InsertBreak(
+    wps.Enum.wdSectionBreakNextPage
+  );
+  ((obj) => {
     obj.MirrorMargins = 0;
-    (obj => {
-      obj.SetCount(1)
-      obj.EvenlySpaced = -1
-      obj.LineBetween = 0
-      obj.SetCount(1)
-      obj.Spacing = 0
-    })(obj.TextColumns)
-    obj.Orientation = wps.Enum.wdOrientPortrait
-    obj.GutterPos = wps.Enum.wdGutterPosLeft
-    obj.TopMargin = 71.999428
-    obj.BottomMargin = 71.999428
-    obj.Gutter = 0
-    obj.PageWidth = 595.270813
-    obj.PageHeight = 841.883057
-    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin
-    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin
-    obj.Orientation = wps.Enum.wdOrientPortrait
-    obj.GutterPos = wps.Enum.wdGutterPosLeft
-    obj.TopMargin = 71.999428
-    obj.BottomMargin = 71.999428
-    obj.Gutter = 0
-    obj.PageWidth = 595.270813
-    obj.PageHeight = 841.883057
-    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin
-    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin
-    obj.FooterDistance = 49.605999
-    obj.OddAndEvenPagesHeaderFooter = 0
-    obj.DifferentFirstPageHeaderFooter = 0
-    obj.LayoutMode = wps.Enum.wdLayoutModeGenko
+    ((obj) => {
+      obj.SetCount(1);
+      obj.EvenlySpaced = -1;
+      obj.LineBetween = 0;
+      obj.SetCount(1);
+      obj.Spacing = 0;
+    })(obj.TextColumns);
+    obj.Orientation = wps.Enum.wdOrientPortrait;
+    obj.GutterPos = wps.Enum.wdGutterPosLeft;
+    obj.TopMargin = 71.999428;
+    obj.BottomMargin = 71.999428;
+    obj.Gutter = 0;
+    obj.PageWidth = 595.270813;
+    obj.PageHeight = 841.883057;
+    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin;
+    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin;
+    obj.Orientation = wps.Enum.wdOrientPortrait;
+    obj.GutterPos = wps.Enum.wdGutterPosLeft;
+    obj.TopMargin = 71.999428;
+    obj.BottomMargin = 71.999428;
+    obj.Gutter = 0;
+    obj.PageWidth = 595.270813;
+    obj.PageHeight = 841.883057;
+    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin;
+    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin;
+    obj.FooterDistance = 49.605999;
+    obj.OddAndEvenPagesHeaderFooter = 0;
+    obj.DifferentFirstPageHeaderFooter = 0;
+    obj.LayoutMode = wps.Enum.wdLayoutModeGenko;
   })(wpsApp.ActiveDocument.Range(200, 201).PageSetup);
-  (obj => {
-    obj.MeasurementUnit = wps.Enum.wdCentimeters
-    obj.UseCharacterUnit = true
-  })(wpsApp.Options)
-  wpsApp.ActiveWindow.ActivePane.VerticalPercentScrolled = 0
+  ((obj) => {
+    obj.MeasurementUnit = wps.Enum.wdCentimeters;
+    obj.UseCharacterUnit = true;
+  })(wpsApp.Options);
+  wpsApp.ActiveWindow.ActivePane.VerticalPercentScrolled = 0;
 }
 
 /**
@@ -1595,44 +1598,45 @@ function AreaGridMacro(wpsApp) {
  * Selection.EndKey(wdStory, wdMove);结束位置
  */
 function DisplayGridMacro(wpsApp) {
-  wpsApp.Options.DisplayGridLines = false
-  wpsApp.ActiveWindow.Selection.Range.PageSetup.LayoutMode = wps.Enum.wdLayoutModeLineGrid;
-  (obj => {
+  wpsApp.Options.DisplayGridLines = false;
+  wpsApp.ActiveWindow.Selection.Range.PageSetup.LayoutMode =
+    wps.Enum.wdLayoutModeLineGrid;
+  ((obj) => {
     obj.MirrorMargins = 0;
-    (obj => {
-      obj.SetCount(1)
-      obj.EvenlySpaced = -1
-      obj.LineBetween = 0
-      obj.SetCount(1)
-      obj.Spacing = 0
-    })(obj.TextColumns)
-    obj.Orientation = wps.Enum.wdOrientPortrait
-    obj.GutterPos = wps.Enum.wdGutterPosLeft
-    obj.TopMargin = 71.999428
-    obj.BottomMargin = 71.999428
-    obj.Gutter = 0
-    obj.PageWidth = 595.270813
-    obj.PageHeight = 841.883057
-    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin
-    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin
-    obj.Orientation = wps.Enum.wdOrientPortrait
-    obj.GutterPos = wps.Enum.wdGutterPosLeft
-    obj.TopMargin = 71.999428
-    obj.BottomMargin = 71.999428
-    obj.Gutter = 0
-    obj.PageWidth = 595.270813
-    obj.PageHeight = 841.883057
-    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin
-    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin
-    obj.FooterDistance = 49.605999
-    obj.OddAndEvenPagesHeaderFooter = 0
-    obj.DifferentFirstPageHeaderFooter = 0
-    obj.LayoutMode = wps.Enum.wdLayoutModeLineGrid
+    ((obj) => {
+      obj.SetCount(1);
+      obj.EvenlySpaced = -1;
+      obj.LineBetween = 0;
+      obj.SetCount(1);
+      obj.Spacing = 0;
+    })(obj.TextColumns);
+    obj.Orientation = wps.Enum.wdOrientPortrait;
+    obj.GutterPos = wps.Enum.wdGutterPosLeft;
+    obj.TopMargin = 71.999428;
+    obj.BottomMargin = 71.999428;
+    obj.Gutter = 0;
+    obj.PageWidth = 595.270813;
+    obj.PageHeight = 841.883057;
+    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin;
+    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin;
+    obj.Orientation = wps.Enum.wdOrientPortrait;
+    obj.GutterPos = wps.Enum.wdGutterPosLeft;
+    obj.TopMargin = 71.999428;
+    obj.BottomMargin = 71.999428;
+    obj.Gutter = 0;
+    obj.PageWidth = 595.270813;
+    obj.PageHeight = 841.883057;
+    obj.FirstPageTray = wps.Enum.wdPrinterDefaultBin;
+    obj.OtherPagesTray = wps.Enum.wdPrinterDefaultBin;
+    obj.FooterDistance = 49.605999;
+    obj.OddAndEvenPagesHeaderFooter = 0;
+    obj.DifferentFirstPageHeaderFooter = 0;
+    obj.LayoutMode = wps.Enum.wdLayoutModeLineGrid;
   })(wpsApp.ActiveDocument.PageSetup);
-  (obj => {
-    obj.MeasurementUnit = wps.Enum.wdCentimeters
-    obj.UseCharacterUnit = true
-  })(wpsApp.Options)
+  ((obj) => {
+    obj.MeasurementUnit = wps.Enum.wdCentimeters;
+    obj.UseCharacterUnit = true;
+  })(wpsApp.Options);
 }
 
 /**
@@ -1640,49 +1644,49 @@ function DisplayGridMacro(wpsApp) {
  * 由 dnh 设置，时间: 2022/05/09
  */
 function Macro() {
-  const wpsApp = wps.WpsApplication()
-  const { Selection } = wpsApp.ActiveWindow
+  const wpsApp = wps.WpsApplication();
+  const { Selection } = wpsApp.ActiveWindow;
 
-  Selection.WholeStory()
+  Selection.WholeStory();
   Selection.Font.Name = "仿宋_GB2312";
-  (obj => {
-    obj.Size = 16
-    obj.SizeBi = 16
+  ((obj) => {
+    obj.Size = 16;
+    obj.SizeBi = 16;
   })(Selection.Font);
 
-  (obj => {
-    obj.CharacterUnitFirstLineIndent = 2
-    obj.FirstLineIndent = 0
-    obj.CharacterUnitFirstLineIndent = 2
-    obj.FirstLineIndent = 0
-    obj.ReadingOrder = wps.Enum.wdReadingOrderLtr
-    obj.DisableLineHeightGrid = 0
-    obj.AutoAdjustRightIndent = -1
-    obj.WidowControl = 0
-    obj.KeepWithNext = 0
-    obj.KeepTogether = 0
-    obj.PageBreakBefore = 0
-    obj.FarEastLineBreakControl = -1
-    obj.WordWrap = -1
-    obj.HangingPunctuation = -1
-    obj.HalfWidthPunctuationOnTopOfLine = 0
-    obj.AddSpaceBetweenFarEastAndAlpha = -1
-    obj.AddSpaceBetweenFarEastAndDigit = -1
-    obj.BaseLineAlignment = wps.Enum.wdBaselineAlignAuto
-  })(Selection.ParagraphFormat)
-  Selection.SetRange(0, 0)
-  wpsApp.ActiveDocument.AcceptAllRevisions()
+  ((obj) => {
+    obj.CharacterUnitFirstLineIndent = 2;
+    obj.FirstLineIndent = 0;
+    obj.CharacterUnitFirstLineIndent = 2;
+    obj.FirstLineIndent = 0;
+    obj.ReadingOrder = wps.Enum.wdReadingOrderLtr;
+    obj.DisableLineHeightGrid = 0;
+    obj.AutoAdjustRightIndent = -1;
+    obj.WidowControl = 0;
+    obj.KeepWithNext = 0;
+    obj.KeepTogether = 0;
+    obj.PageBreakBefore = 0;
+    obj.FarEastLineBreakControl = -1;
+    obj.WordWrap = -1;
+    obj.HangingPunctuation = -1;
+    obj.HalfWidthPunctuationOnTopOfLine = 0;
+    obj.AddSpaceBetweenFarEastAndAlpha = -1;
+    obj.AddSpaceBetweenFarEastAndDigit = -1;
+    obj.BaseLineAlignment = wps.Enum.wdBaselineAlignAuto;
+  })(Selection.ParagraphFormat);
+  Selection.SetRange(0, 0);
+  wpsApp.ActiveDocument.AcceptAllRevisions();
 
   if (!wpsApp.Options.DisplayGridLines) {
-    DisplayGridMacro(wpsApp)
+    DisplayGridMacro(wpsApp);
   } else {
     // AreaGridMacro(wpsApp)
-    GridMacro(wpsApp)
+    GridMacro(wpsApp);
   }
 }
 
 function OnFormatClick() {
-  Macro()
+  Macro();
 }
 
 //自定义菜单按钮的点击执行事件
@@ -2203,8 +2207,8 @@ function OnGetEnabled(control) {
       return pGetDisabledBtn("FileNewMenu");
     case "WindowNew":
       return pGetDisabledBtn("WindowNew");
-    case "FileNewBlankDocument":
-      return OnSetSaveToOAEnable();
+    case "btnImportTemplate":
+      return pGetDisabledBtn("btnImportTemplate");
     case "btnCloseRevision":
       return pGetDisabledBtn("btnCloseRevision");
     case "btnOpenRevision":
@@ -2242,6 +2246,8 @@ function OnGetEnabled(control) {
       return pGetDisabledBtn("FileSaveAsOfd");
     case "TabSecurity":
       return pGetDisabledBtn("TabSecurity");
+    case "FileNewBlankDocument":
+      return OnSetSaveToOAEnable();
     case "TabInsert": {
       // case "TabReferences": //WPS自身tab：引用 //WPS自身tab：插入
       // case "TabView": //WPS自身tab：视图 // case "TabReviewWord": //WPS自身tab：审阅 // case "TabReferences": //WPS自身tab：引用 // case "TabPageLayoutWord": //WPS自身tab：页面布局 //WPS自身tab：开发工具

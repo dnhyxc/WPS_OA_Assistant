@@ -5,11 +5,11 @@ var wpsClient = new WpsClient(pluginType); //初始化一个多进程对象，�
 var clientStr = pluginName + pluginType + "ClientId";
 
 let notifyCallback = {
-  open() { },
-  save() { },
-  status() { },
-  taohong() { },
-  exit() { },
+  open() {},
+  save() {},
+  status() {},
+  taohong() {},
+  exit() {},
 };
 
 //单进程封装开始
@@ -691,9 +691,9 @@ function fillTemplate() {
   var templatePath = prompt(
     "请输入需要填充的数据的请求地址:",
     document.location.protocol +
-    "//" +
-    document.location.host +
-    "/getTemplateData"
+      "//" +
+      document.location.host +
+      "/getTemplateData"
   );
 
   _WpsInvoke([
@@ -1123,7 +1123,14 @@ function insertRedHead() {
     _taskLevel: "缓急",
     secretClass: "密级1",
     department: "高级的前端部门",
-    enclosure: JSON.stringify(['附件1.png', '附件222.png', '附件121dsa.png', '附件hdhadhadh.png', 'dhasdhsa.jpg', 'djhsajdha.doc'])
+    enclosure: JSON.stringify([
+      "附件1.png",
+      "附件222.png",
+      "附件121dsa.png",
+      "附件hdhadhadh.png",
+      "dhasdhsa.jpg",
+      "djhsajdha.doc",
+    ]),
   };
 
   // var bookMarksStart = "正文内容B";
@@ -1178,7 +1185,7 @@ function insertRedHead() {
           },
           // 屏蔽功能按钮, 不传则显示所有操作按钮，如果传入对应的按钮，那么传入的这些按钮将不会在加载项中显示。注意每个按钮之间需要用逗号分隔，btnImportTemplate 这个些参数是 ribbon.xml 中 button 所对应的 id
           buttonGroups:
-            "btnImportTemplate,btnInsertBookmark,btnChangeToPDF,btnChangeToUOT,btnChangeToOFD",
+            "btnInsertBookmark,btnChangeToPDF,btnChangeToUOT,btnChangeToOFD",
 
           disabledBtns:
             "btnOpenRevision,btnCloseRevision,btnAcceptAllRevisions,btnRejectAllRevisions", // 禁用加载项按钮
