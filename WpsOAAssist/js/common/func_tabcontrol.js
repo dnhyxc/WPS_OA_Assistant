@@ -1648,6 +1648,8 @@ function Macro() {
   const { Selection } = wpsApp.ActiveWindow;
 
   Selection.WholeStory();
+  // 首先清楚原来的格式
+  Selection.ClearFormatting();
   Selection.Font.Name = "仿宋_GB2312";
   // Selection.Font.ColorIndex = wps.Enum.wdAuto; // 设置字体颜色为自动
   Selection.Range.HighlightColorIndex = wps.Enum.wdAuto; // 设置字体底色未自动
