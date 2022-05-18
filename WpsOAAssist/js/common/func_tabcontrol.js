@@ -1649,6 +1649,8 @@ function Macro() {
 
   Selection.WholeStory();
   Selection.Font.Name = "仿宋_GB2312";
+  // Selection.Font.ColorIndex = wps.Enum.wdAuto; // 设置字体颜色为自动
+  Selection.Range.HighlightColorIndex = wps.Enum.wdAuto; // 设置字体底色未自动
   ((obj) => {
     obj.Size = 16;
     obj.SizeBi = 16;
