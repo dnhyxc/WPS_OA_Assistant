@@ -23,12 +23,23 @@
         margin: 0;
         padding: 0;
         width: 100%;
-        height: 100%;
+        height: calc(100% - 10px);
       }
 
       .row {
         width: 100%;
-        border-top: 2px solid #e7e7e7;
+        height: 100%;
+        margin-top: 10px;
+        padding-top: 20px;
+        border-top: 1px solid #e7e7e7;
+      }
+
+      .action {
+        position: absolute;
+        bottom: 2px;
+        right: 0;
+        width: 100%;
+        border-top: 1px solid #e7e7e7;
       }
 
       .row > div {
@@ -36,21 +47,45 @@
       }
 
       #file_select {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
         width: 100%;
-        padding-left: 5%;
+        padding: 0 20px;
+        height: 32px;
       }
 
       .def_control {
-        height: 55%;
-        width: 100%;
-        font-size: 18px;
+        flex: 1;
+        height: 32px;
+        font-size: 16px;
+        color: #333;
+      }
+
+      .placeholder {
+        color: #9c9c9c;
       }
 
       .btn_box {
-        width: 16%;
+        width: 88px;
         float: right;
         line-height: 4.5em;
-        margin-right: 3%;
+        margin-right: 20px;
+      }
+
+      .action_btn {
+        width: 100%;
+        height: 32px;
+        background: #fff;
+        outline: none;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+
+      .require {
+        background: #1e90ff;
+        color: #fff;
       }
     </style>
   </head>
@@ -60,26 +95,30 @@
       <div class="row" style="height: 50%; padding-top: 3%">
         <div id="file_select">
           <span>文件名：</span>
-          <select class="def_control" style="width: 80%" v-model="templateItem">
+          <select
+            class="def_control"
+            style="width: 100%"
+            v-model="templateItem"
+          >
             <option value="-1">请选择模板</option>
-            <option
-              v-for="(item, key) in templates"
-              :value="key"
-              :key="item.name"
-            >
+            <option v-for="(item, key) in templates" :value="key" :key="key">
               {{item}}
             </option>
           </select>
         </div>
       </div>
-      <div class="row" style="height: 50%">
+      <div class="action" style="height: 50%">
         <div class="btn_box">
-          <button class="def_control" type="button" @click="cancel()">
+          <button class="action_btn" type="button" @click="cancel()">
             取消
           </button>
         </div>
         <div class="btn_box">
-          <button class="def_control" type="button" @click="OnImportTemplate()">
+          <button
+            class="action_btn require"
+            type="button"
+            @click="OnImportTemplate()"
+          >
             导入
           </button>
         </div>
@@ -92,7 +131,7 @@
    * 导入公文模板，并替换当前文档全部内容
    * @param templateURL  模板路径
    */
-  function importTemplateFile(templateURL) {
+  function importTemlateFile(templateURL) {
     var wpsApp = wps.WpsApplication();
     var activeDoc = wpsApp.ActiveDocument;
     if (!activeDoc) {
@@ -111,7 +150,7 @@
 
   const mimeTypeMap = {
     doc: "application/msword",
-    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   };
 
   // 获取选中项，拼接模板Url进行导入模板
@@ -151,7 +190,7 @@
     el: "#template",
     data: {
       templateItem: -1,
-      templates: {},
+      templates: []
     },
     methods: {
       GetTemplatePath(templateDataUrl) {
@@ -178,15 +217,14 @@
           //     orgId: l_params.orgId,
           //   }),
           success: function (res) {
-            console.log(res.name, "res");
-            console.log(res.url, "res");
+            console.log(res, "res>>>>>");
             _this.templates = res;
             console.log("模板列表数据：" + JSON.stringify(res));
           },
           error: function (res) {
             alert("获取响应失败");
-            _this.templates = {};
-          },
+            _this.templates = [];
+          }
         });
 
         //本地静态列表
@@ -196,10 +234,10 @@
         //     tempId: 1,
         //   },
         // ];
-      },
+      }
     },
     mounted: function () {
       this.getAllTemplate();
-    },
+    }
   });
 </script>
