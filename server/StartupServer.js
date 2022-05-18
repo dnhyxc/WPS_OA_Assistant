@@ -113,11 +113,30 @@ app.post("/Upload", function (request, response) {
  * json数据格式及解析， 可与各加载项中的 js / common / func_docProcess.js: GetServerTemplateData 方法对应着修改
  */
 app.post("/getTemplateData", function (request, response) {
-  var file = path.join(__dirname, "./wwwroot/file/qqqqq.doc");
-  console.log(file, 'node>>>>>file')
+  const luxun = path.join(__dirname, "./wwwroot/file/bodyFileTemplate/luxun.doc");
+  const lizhi = path.join(__dirname, "./wwwroot/file/bodyFileTemplate/lizhi.doc");
+  const weimei = path.join(__dirname, "./wwwroot/file/bodyFileTemplate/weimei.doc");
+  console.log(luxun, 'luxun>>>>>file')
+  console.log(lizhi, 'lizhi>>>>>file')
+  console.log(weimei, 'weimei>>>>>file')
   response.send({
-    url: file,
-    name: '第一个模板'
+    data: [
+      {
+        tempId: 1,
+        name: '当代周树人.doc',
+        url: luxun
+      },
+      {
+        tempId: 2,
+        name: '励志.doc',
+        url: lizhi
+      },
+      {
+        tempId: 1,
+        name: '唯美.doc',
+        url: weimei
+      },
+    ]
   })
 
   // var file = path.join(__dirname, "./wwwroot/file/templateData.json");

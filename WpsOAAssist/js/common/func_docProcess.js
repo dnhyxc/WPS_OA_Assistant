@@ -181,11 +181,8 @@ function OpenFile(params) {
  * @param {*} isOnlineDoc 在线打开/落地打开
  */
 function pNewFile(doc, params, isOnlineDoc) {
-  console.log(GetParamsValue(params, constStrEnum.bodyTemplateUrl), params.bodyTemplateUrl, 'GetParamsValue(params, constStrEnum.bodyTemplateUrl)')
-
   if (params.bodyTemplateUrl) {
     // if (GetParamsValue(params, constStrEnum.bodyTemplateUrl)) {
-    console.log("开始插入预设正文模板");
     InsertPresetTemplateDoc(doc, params);
   }
 
@@ -268,12 +265,8 @@ function InsertPresetTemplateDoc(doc, params) {
     return;
   }
 
-  console.log(constStrEnum, doc, 'constStrEnum')
-
   var bodyTemplateUrl = params.bodyTemplateUrl;
   // var bodyTemplateUrl = GetDocParamsValue(doc, constStrEnum.bodyTemplateUrl);
-
-  console.log(bodyTemplateUrl, 'bodyTemplateUrl')
 
   if (!bodyTemplateUrl) {
     console.log("未获取到系统传入正文模板URL路径，不能正常插入模板");
@@ -298,7 +291,6 @@ function InsertPresetTemplateDoc(doc, params) {
 
 /**
  * 套用模板插入文字/图片/文档
- *  * params参数结构
  * params:{
  *     'docId': docId, //文档ID
  *     'templateURL':'',获取模板接口
@@ -314,7 +306,6 @@ function InsertPresetTemplateDoc(doc, params) {
 function GetServerTemplateData(template, pTemplateDataUrl) {
   // 更改：增加获取params参数逻辑（开始位置）
   var l_params = GetDocParamsValue(template, "params");
-  // 结束位置
 
   //获取文档内容
   $.ajax({
@@ -670,9 +661,6 @@ function handleFileAndUpload(suffix, doc, uploadPath, FieldName, saveType = 1) {
   switch (suffix.toLocaleLowerCase()) {
     case ".pdf":
       l_strPath = pGetValidDocTempPath(doc) + ".pdf"; //获取有效输出路径
-
-      console.log(l_strPath, "l_strPath>>>>pdf");
-
       wps.FileSystem.Remove(l_strPath); //先删除之前可能存在的临时文件
       doc.ExportAsFixedFormat(
         l_strPath,
@@ -1190,14 +1178,15 @@ function pInsertRInedFieldAsOneBk(doc) {
         try {
           const enclosure = JSON.parse(currentValue)
           const res = enclosure.map((i, index) => {
+            const lastIndex = i.lastIndexOf('.')
+            const fileName = i.substring(0, lastIndex)
             if (index !== 0) {
-              return "      " + i + '\n'
+              return `   ${index + 1}. ${fileName}\n`
             } else {
-              return i + '\n'
+              return `${index + 1}. ${fileName}\n`
             }
           })
           bookmark.Range.Text = res && res.join('')
-          // '附件1.png' + '\n' + ("      " + '附件2222.png') + '\n' + ("      " + '附件33333.png');
         } catch (error) {
           throw new Error(error)
         }
@@ -1219,7 +1208,7 @@ function pInsertRInedFieldAsOneBk(doc) {
       }
     });
   } catch (error) {
-    console.log('>>>>>>>>>>>>>>>>>>>>报错了啊》》》》》》》》》》》》》》》')
+    throw new Error(error)
   }
 }
 
