@@ -5,11 +5,11 @@ var wpsClient = new WpsClient(pluginType); //初始化一个多进程对象，�
 var clientStr = pluginName + pluginType + "ClientId";
 
 let notifyCallback = {
-  open() {},
-  save() {},
-  status() {},
-  taohong() {},
-  exit() {},
+  open() { },
+  save() { },
+  status() { },
+  taohong() { },
+  exit() { },
 };
 
 //单进程封装开始
@@ -310,6 +310,370 @@ function showresult(resultData) {
 var _wps = {};
 
 // 此处往下，都是对于前端页面如何调用WPS加载项方法的样例，开发者请参考
+
+
+/**
+ * =======================自定义测试================================
+ */
+function customDoc() {
+  var uploadPath = GetUploadPath();
+
+  var uploadFieldName = "dnhyxc";
+
+  var fileList = [];
+
+  var fieldObj = {
+    title: "瞧好了，标题插入了",
+    mainSend: "主送WOWOWO",
+    copySend: "DNHYXC、xxx、hhh、ccc",
+    issUer: "签发人xxx",
+    signingUnit: "落款单位xxx",
+    signatureUnit: "署名单位xxx",
+    issueDate: "签发日期2022/05/06",
+    printDate: "印发日期2022/05/06",
+    creatPerson: "dnhyxc",
+    refNo: "2020[0902]号",
+    urgencyLevel: "紧急",
+    secretClass: "密级1",
+    department: "高级的前端部门",
+    units: "发文单位",
+  };
+
+  var bookMarksStart = "正文内容B";
+
+  var bookMarksEnd = "正文内容E";
+
+  const dealDescription = `创建【套红正文】文件`;
+
+  _WpsInvoke(
+    [
+      {
+        OpenDoc: {
+          docId: "902209",
+          uploadPath: uploadPath, // 保存文档上传接口
+          fileName: "",
+          newFileName: "问号名称.docx",
+          uploadFieldName: uploadFieldName,
+          insertFileUrl: GetDemoPath("wps广西移动公司部门会议纪要.doc"),
+          bkInsertFileStart: bookMarksStart,
+          bkInsertFileEnd: bookMarksEnd,
+          bodyTemplateUrl: GetDemoPath("qqqqq.doc"),
+          userName: "dnhyxc",
+          suffix: ".pdf",
+          uploadWithAppendPath: "1",
+
+          // 默认开启修订
+          revisionCtrl: {
+            bOpenRevision: true,
+            bShowRevision: true,
+          },
+
+          params: {
+            isNew: true,
+            id: parseInt(Math.random() * 100),
+            orgId: "902209",
+            docId: 123456789,
+            file: undefined,
+            index: -1,
+            list: fileList || [],
+            operType: 4,
+            dealDescription,
+            fieldObj,
+          },
+          openType: {
+            // 文档打开方式
+            // 文档保护类型，-1：不启用保护模式，0：只允许对现有内容进行修订，
+            // 1：只允许添加批注，2：只允许修改窗体域(禁止拷贝功能)，3：只读
+            protectType: -1,
+            // protectType: downloadParams ? 0 : -1,
+            // password: '123456',
+          },
+          // 屏蔽功能按钮, 不传则显示所有操作按钮，如果传入对应的按钮，那么传入的这些按钮将不会在加载项中显示。注意每个按钮之间需要用逗号分隔，btnImportTemplate 这个些参数是 ribbon.xml 中 button 所对应的 id
+          buttonGroups:
+            "btnImportTemplate,btnInsertBookmark,btnChangeToPDF,btnChangeToUOT,btnChangeToOFD",
+
+          disabledBtns:
+            "btnOpenRevision,btnCloseRevision,btnAcceptAllRevisions,btnRejectAllRevisions", // 禁用加载项按钮
+        },
+      },
+    ],
+    true
+  ); // OpenDoc方法对应于OA助手dispatcher支持的方法名
+}
+
+_wps["customDoc"] = {
+  action: customDoc,
+  code: _WpsInvoke.toString() + "\n\n" + customDoc.toString(),
+  detail:
+    "\n\
+  说明：\n\
+    点击按钮，输入要打开的文档路径，输入文档上传接口，如果传的不是有效的服务端地址，将无法使用保存上传功能。\n\
+    打开WPS文字后,将根据文档路径在线打开对应的文档，保存将自动上传指定服务器地址\n\
+    \n\
+  方法使用：\n\
+    页面点击按钮，通过wps客户端协议来启动WPS，调用oaassist插件，执行传输数据中的指令\n\
+    funcs参数信息说明:\n\
+        OnlineEditDoc方法对应于OA助手dispatcher支持的方法名\n\
+            uploadPath 保存文档上传接口\n\
+            fileName 打开的文档路径\n\
+            uploadFieldName 文档上传到业务系统时自定义字段\n\
+            userName 传给wps要显示的OA用户名\n\
+",
+};
+
+// 单标签套红
+function insertRedHead() {
+  var uploadPath = GetUploadPath();
+
+  var uploadFieldName = "dnhyxc";
+
+  var fileList = [];
+
+  var fieldObj = {
+    title: "瞧好了，标题插入了",
+    mainSend: "主送WOWOWO>>>",
+    copySend: "DNHYXC、xxx、hhh、ccc",
+    issUer: "签发人xxx",
+    signingUnit: "落款单位xxx",
+    signatureUnit: "署名单位xxx",
+    issueDate: "签发日期2022/05/06",
+    printDate: "印发日期2022/05/06",
+    creatPerson: "dnhyxc",
+    refNo: "2020[0902]号",
+    _taskLevel: "缓急",
+    secretClass: "密级1",
+    department: "高级的前端部门",
+    enclosure: JSON.stringify([
+      "附件1.png",
+      "附件222.png",
+      "附件121dsa.png",
+      "附件hdhadhadh.png",
+      "dhasdhsa.jpg",
+      "djhsajdha.doc",
+    ]),
+  };
+
+  // var bookMarksStart = "正文内容B";
+
+  // var bookMarksEnd = "正文内容E";
+
+  var bkInsertFile = "zw";
+
+  const dealDescription = `创建【套红正文】文件`;
+
+  _WpsInvoke(
+    [
+      {
+        OpenDoc: {
+          docId: "902209",
+          uploadPath: uploadPath, // 保存文档上传接口
+          fileName: "",
+          newFileName: "问号名称.docx",
+          uploadFieldName: uploadFieldName,
+          insertFileUrl: GetDemoPath("temp.doc"),
+          bkInsertFile,
+          templateDataUrl: '/getTemplateData',
+          userName: "dnhyxc",
+          suffix: ".pdf",
+          uploadWithAppendPath: "1",
+
+          // 默认开启修订
+          revisionCtrl: {
+            bOpenRevision: true,
+            bShowRevision: true,
+          },
+
+          params: {
+            isNew: true,
+            id: parseInt(Math.random() * 100),
+            orgId: "902209",
+            docId: 123456789,
+            file: undefined,
+            index: -1,
+            list: fileList || [],
+            operType: 4,
+            dealDescription,
+            fieldObj,
+          },
+          openType: {
+            // 文档打开方式
+            // 文档保护类型，-1：不启用保护模式，0：只允许对现有内容进行修订，
+            // 1：只允许添加批注，2：只允许修改窗体域(禁止拷贝功能)，3：只读
+            protectType: -1,
+            // protectType: downloadParams ? 0 : -1,
+            // password: '123456',
+          },
+          // 屏蔽功能按钮, 不传则显示所有操作按钮，如果传入对应的按钮，那么传入的这些按钮将不会在加载项中显示。注意每个按钮之间需要用逗号分隔，btnImportTemplate 这个些参数是 ribbon.xml 中 button 所对应的 id
+          buttonGroups:
+            "btnInsertBookmark,btnChangeToPDF,btnChangeToUOT,btnChangeToOFD",
+
+          disabledBtns:
+            "btnOpenRevision,btnCloseRevision,btnAcceptAllRevisions,btnRejectAllRevisions", // 禁用加载项按钮
+        },
+      },
+    ],
+    true
+  ); // OpenDoc方法对应于OA助手dispatcher支持的方法名
+}
+
+_wps["insertRedHead"] = {
+  action: insertRedHead,
+  code: _WpsInvoke.toString() + "\n\n" + insertRedHead.toString(),
+  detail:
+    "\n\
+  说明：\n\
+    点击按钮，输入要打开的文档路径，输入文档上传接口，如果传的不是有效的服务端地址，将无法使用保存上传功能。\n\
+    打开WPS文字后,将根据文档路径在线打开对应的文档，保存将自动上传指定服务器地址\n\
+    \n\
+  方法使用：\n\
+    页面点击按钮，通过wps客户端协议来启动WPS，调用oaassist插件，执行传输数据中的指令\n\
+    funcs参数信息说明:\n\
+        OnlineEditDoc方法对应于OA助手dispatcher支持的方法名\n\
+            uploadPath 保存文档上传接口\n\
+            fileName 打开的文档路径\n\
+            uploadFieldName 文档上传到业务系统时自定义字段\n\
+            userName 传给wps要显示的OA用户名\n\
+",
+};
+
+// 自定义
+function editDoc() {
+  var uploadPath = GetUploadPath("uploaded");
+
+  // var filePath = GetDemoPath("未套红doc问号名称.docx");
+
+  var uploadFieldName = "dnhyxc";
+
+  var fileList = [
+    {
+      downloadUrl:
+        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红pdf问号名称.pdf",
+      key: 69.51143176678201,
+      name: "",
+      noMarksPdfUrl:
+        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红pdf问号名称.pdf",
+      noRedHeadOriginalUrl:
+        "C:\\code\\Reinhold\\WPS_OA_Assistant\\server\\wwwroot\\uploaded\\未套红doc问号名称.docx",
+      noRedHeadPdfUrl:
+        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\未套红pdf问号名称.pdf",
+      originalUrl:
+        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红doc问号名称.docx",
+      redHeadOriginalHTMLUrl:
+        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红html问号名称.html",
+      redHeadOriginalUrl:
+        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红doc问号名称.docx",
+      redHeadPdfUrl:
+        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红pdf问号名称.pdf",
+      type: "docx",
+      url: "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红pdf问号名称.pdf",
+    },
+  ];
+
+  const currentFile = fileList[0];
+
+  var fieldObj = {
+    title: "瞧好了，标题插入了",
+    mainSend: "WOWOWOW",
+    copySend: "Reinhold",
+    issUer: "签发人",
+    signingUnit: "落款单位",
+    signatureUnit: "署名单位",
+    issueDate: "签发日期",
+    printDate: "印发日期",
+    creatPerson: "Reinhold",
+    refNo: "2020[0902]号",
+    urgencyLevel: "紧急",
+    secretClass: "密级1",
+    department: "高级的前端部门",
+    units: "发文单位",
+  };
+
+  var bookMarksStart = "正文内容B";
+
+  var bookMarksEnd = "正文内容E";
+
+  const dealDescription = `创建【套红正文】文件`;
+
+  _WpsInvoke(
+    [
+      {
+        OpenDoc: {
+          docId: "902209",
+          uploadPath, // 保存文档上传接口
+          fileName: "正文.docx",
+          filePath: currentFile.noRedHeadOriginalUrl, // 需要编辑的正文
+          newFileName: "取名字真的好难.docx",
+          uploadFieldName, // 设置编辑人名称
+          insertFileUrl: GetDemoPath("wps广西移动公司部门会议纪要.doc"), // 套红模板
+          bkInsertFileStart: bookMarksStart, // 套红开始位置标签
+          bkInsertFileEnd: bookMarksEnd, // 套红结束位置标签
+          bodyTemplateUrl: GetDemoPath("qqqqq.doc"), // 正文模板，一般用不着
+          userName: "dnhyxc",
+          suffix: ".pdf,.html", // 需要保存的文件格式
+          uploadWithAppendPath: "1", // 需要保存的文件 saveType，对应pdf
+
+          // 默认开启修订
+          revisionCtrl: {
+            bOpenRevision: true,
+            bShowRevision: true,
+          },
+
+          // 禁用按钮
+          disabledBtns: "btnAcceptAllRevisions,btnRejectAllRevisions",
+
+          // 屏蔽（隐藏）功能按钮
+          buttonGroups: "btnChangeToPDF,btnChangeToUOT,btnChangeToOFD",
+
+          // 自定义传入wps的字段
+          params: {
+            isNew: true,
+            id: parseInt(Math.random() * 100),
+            orgId: "902209",
+            docId: 123456789,
+            file: currentFile,
+            index: -1,
+            list: fileList,
+            operType: 4,
+            dealDescription,
+            fieldObj, // 需要插入wps中的各类标签字段
+          },
+          openType: {
+            // 文档打开方式
+            // 文档保护类型，-1：不启用保护模式，0：只允许对现有内容进行修订，
+            // 1：只允许添加批注，2：只允许修改窗体域(禁止拷贝功能)，3：只读
+            protectType: -1,
+            // protectType: downloadParams ? 0 : -1,
+            // password: '123456',
+          },
+        },
+      },
+    ],
+    true
+  ); // OpenDoc方法对应于OA助手dispatcher支持的方法名
+}
+
+_wps["editDoc"] = {
+  action: editDoc,
+  code: _WpsInvoke.toString() + "\n\n" + editDoc.toString(),
+  detail:
+    "\n\
+  说明：\n\
+    点击按钮，输入要打开的文档路径，输入文档上传接口，如果传的不是有效的服务端地址，将无法使用保存上传功能。\n\
+    打开WPS文字后,将根据文档路径在线打开对应的文档，保存将自动上传指定服务器地址\n\
+    \n\
+  方法使用：\n\
+    页面点击按钮，通过wps客户端协议来启动WPS，调用oaassist插件，执行传输数据中的指令\n\
+    funcs参数信息说明:\n\
+        OnlineEditDoc方法对应于OA助手dispatcher支持的方法名\n\
+            uploadPath 保存文档上传接口\n\
+            fileName 打开的文档路径\n\
+            uploadFieldName 文档上传到业务系统时自定义字段\n\
+            userName 传给wps要显示的OA用户名\n\
+",
+};
+/**
+ * =======================自定义测试================================
+ */
 
 function newDoc() {
   _WpsInvoke(
@@ -691,9 +1055,9 @@ function fillTemplate() {
   var templatePath = prompt(
     "请输入需要填充的数据的请求地址:",
     document.location.protocol +
-      "//" +
-      document.location.host +
-      "/getTemplateData"
+    "//" +
+    document.location.host +
+    "/getTemplateData"
   );
 
   _WpsInvoke([
@@ -991,369 +1355,6 @@ _wps["onlineEditOfficialDocument"] = {
             userName 传给wps要显示的OA用户名\n\
 ",
 };
-
-/**
- * =======================自定义测试================================
- */
-function customDoc() {
-  var uploadPath = GetUploadPath();
-
-  var uploadFieldName = "dnhyxc";
-
-  var fileList = [];
-
-  var fieldObj = {
-    title: "瞧好了，标题插入了",
-    mainSend: "主送WOWOWO",
-    copySend: "DNHYXC、xxx、hhh、ccc",
-    issUer: "签发人xxx",
-    signingUnit: "落款单位xxx",
-    signatureUnit: "署名单位xxx",
-    issueDate: "签发日期2022/05/06",
-    printDate: "印发日期2022/05/06",
-    creatPerson: "dnhyxc",
-    refNo: "2020[0902]号",
-    urgencyLevel: "紧急",
-    secretClass: "密级1",
-    department: "高级的前端部门",
-    units: "发文单位",
-  };
-
-  var bookMarksStart = "正文内容B";
-
-  var bookMarksEnd = "正文内容E";
-
-  const dealDescription = `创建【套红正文】文件`;
-
-  _WpsInvoke(
-    [
-      {
-        OpenDoc: {
-          docId: "902209",
-          uploadPath: uploadPath, // 保存文档上传接口
-          fileName: "",
-          newFileName: "问号名称.docx",
-          uploadFieldName: uploadFieldName,
-          insertFileUrl: GetDemoPath("wps广西移动公司部门会议纪要.doc"),
-          bkInsertFileStart: bookMarksStart,
-          bkInsertFileEnd: bookMarksEnd,
-          bodyTemplateUrl: GetDemoPath("qqqqq.doc"),
-          userName: "dnhyxc",
-          suffix: ".pdf",
-          uploadWithAppendPath: "1",
-
-          // 默认开启修订
-          revisionCtrl: {
-            bOpenRevision: true,
-            bShowRevision: true,
-          },
-
-          params: {
-            isNew: true,
-            id: parseInt(Math.random() * 100),
-            orgId: "902209",
-            docId: 123456789,
-            file: undefined,
-            index: -1,
-            list: fileList || [],
-            operType: 4,
-            dealDescription,
-            fieldObj,
-          },
-          openType: {
-            // 文档打开方式
-            // 文档保护类型，-1：不启用保护模式，0：只允许对现有内容进行修订，
-            // 1：只允许添加批注，2：只允许修改窗体域(禁止拷贝功能)，3：只读
-            protectType: -1,
-            // protectType: downloadParams ? 0 : -1,
-            // password: '123456',
-          },
-          // 屏蔽功能按钮, 不传则显示所有操作按钮，如果传入对应的按钮，那么传入的这些按钮将不会在加载项中显示。注意每个按钮之间需要用逗号分隔，btnImportTemplate 这个些参数是 ribbon.xml 中 button 所对应的 id
-          buttonGroups:
-            "btnImportTemplate,btnInsertBookmark,btnChangeToPDF,btnChangeToUOT,btnChangeToOFD",
-
-          disabledBtns:
-            "btnOpenRevision,btnCloseRevision,btnAcceptAllRevisions,btnRejectAllRevisions", // 禁用加载项按钮
-        },
-      },
-    ],
-    true
-  ); // OpenDoc方法对应于OA助手dispatcher支持的方法名
-}
-
-_wps["customDoc"] = {
-  action: customDoc,
-  code: _WpsInvoke.toString() + "\n\n" + customDoc.toString(),
-  detail:
-    "\n\
-  说明：\n\
-    点击按钮，输入要打开的文档路径，输入文档上传接口，如果传的不是有效的服务端地址，将无法使用保存上传功能。\n\
-    打开WPS文字后,将根据文档路径在线打开对应的文档，保存将自动上传指定服务器地址\n\
-    \n\
-  方法使用：\n\
-    页面点击按钮，通过wps客户端协议来启动WPS，调用oaassist插件，执行传输数据中的指令\n\
-    funcs参数信息说明:\n\
-        OnlineEditDoc方法对应于OA助手dispatcher支持的方法名\n\
-            uploadPath 保存文档上传接口\n\
-            fileName 打开的文档路径\n\
-            uploadFieldName 文档上传到业务系统时自定义字段\n\
-            userName 传给wps要显示的OA用户名\n\
-",
-};
-
-// 单标签套红
-function insertRedHead() {
-  var uploadPath = GetUploadPath();
-
-  var uploadFieldName = "dnhyxc";
-
-  var fileList = [];
-
-  var fieldObj = {
-    title: "瞧好了，标题插入了",
-    mainSend: "主送WOWOWO>>>",
-    copySend: "DNHYXC、xxx、hhh、ccc",
-    issUer: "签发人xxx",
-    signingUnit: "落款单位xxx",
-    signatureUnit: "署名单位xxx",
-    issueDate: "签发日期2022/05/06",
-    printDate: "印发日期2022/05/06",
-    creatPerson: "dnhyxc",
-    refNo: "2020[0902]号",
-    _taskLevel: "缓急",
-    secretClass: "密级1",
-    department: "高级的前端部门",
-    enclosure: JSON.stringify([
-      "附件1.png",
-      "附件222.png",
-      "附件121dsa.png",
-      "附件hdhadhadh.png",
-      "dhasdhsa.jpg",
-      "djhsajdha.doc",
-    ]),
-  };
-
-  // var bookMarksStart = "正文内容B";
-
-  // var bookMarksEnd = "正文内容E";
-
-  var bkInsertFile = "zw";
-
-  const dealDescription = `创建【套红正文】文件`;
-
-  _WpsInvoke(
-    [
-      {
-        OpenDoc: {
-          docId: "902209",
-          uploadPath: uploadPath, // 保存文档上传接口
-          fileName: "",
-          newFileName: "问号名称.docx",
-          uploadFieldName: uploadFieldName,
-          insertFileUrl: GetDemoPath("temp.doc"),
-          bkInsertFile,
-          // bodyTemplateUrl: GetDemoPath("moa_hong.docm"),
-          userName: "dnhyxc",
-          suffix: ".pdf",
-          uploadWithAppendPath: "1",
-
-          // 默认开启修订
-          revisionCtrl: {
-            bOpenRevision: true,
-            bShowRevision: true,
-          },
-
-          params: {
-            isNew: true,
-            id: parseInt(Math.random() * 100),
-            orgId: "902209",
-            docId: 123456789,
-            file: undefined,
-            index: -1,
-            list: fileList || [],
-            operType: 4,
-            dealDescription,
-            fieldObj,
-          },
-          openType: {
-            // 文档打开方式
-            // 文档保护类型，-1：不启用保护模式，0：只允许对现有内容进行修订，
-            // 1：只允许添加批注，2：只允许修改窗体域(禁止拷贝功能)，3：只读
-            protectType: -1,
-            // protectType: downloadParams ? 0 : -1,
-            // password: '123456',
-          },
-          // 屏蔽功能按钮, 不传则显示所有操作按钮，如果传入对应的按钮，那么传入的这些按钮将不会在加载项中显示。注意每个按钮之间需要用逗号分隔，btnImportTemplate 这个些参数是 ribbon.xml 中 button 所对应的 id
-          buttonGroups:
-            "btnInsertBookmark,btnChangeToPDF,btnChangeToUOT,btnChangeToOFD",
-
-          disabledBtns:
-            "btnOpenRevision,btnCloseRevision,btnAcceptAllRevisions,btnRejectAllRevisions", // 禁用加载项按钮
-        },
-      },
-    ],
-    true
-  ); // OpenDoc方法对应于OA助手dispatcher支持的方法名
-}
-
-_wps["insertRedHead"] = {
-  action: insertRedHead,
-  code: _WpsInvoke.toString() + "\n\n" + insertRedHead.toString(),
-  detail:
-    "\n\
-  说明：\n\
-    点击按钮，输入要打开的文档路径，输入文档上传接口，如果传的不是有效的服务端地址，将无法使用保存上传功能。\n\
-    打开WPS文字后,将根据文档路径在线打开对应的文档，保存将自动上传指定服务器地址\n\
-    \n\
-  方法使用：\n\
-    页面点击按钮，通过wps客户端协议来启动WPS，调用oaassist插件，执行传输数据中的指令\n\
-    funcs参数信息说明:\n\
-        OnlineEditDoc方法对应于OA助手dispatcher支持的方法名\n\
-            uploadPath 保存文档上传接口\n\
-            fileName 打开的文档路径\n\
-            uploadFieldName 文档上传到业务系统时自定义字段\n\
-            userName 传给wps要显示的OA用户名\n\
-",
-};
-
-// 自定义
-function editDoc() {
-  var uploadPath = GetUploadPath("uploaded");
-
-  // var filePath = GetDemoPath("未套红doc问号名称.docx");
-
-  var uploadFieldName = "dnhyxc";
-
-  var fileList = [
-    {
-      downloadUrl:
-        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红pdf问号名称.pdf",
-      key: 69.51143176678201,
-      name: "",
-      noMarksPdfUrl:
-        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红pdf问号名称.pdf",
-      noRedHeadOriginalUrl:
-        "C:\\code\\Reinhold\\WPS_OA_Assistant\\server\\wwwroot\\uploaded\\未套红doc问号名称.docx",
-      noRedHeadPdfUrl:
-        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\未套红pdf问号名称.pdf",
-      originalUrl:
-        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红doc问号名称.docx",
-      redHeadOriginalHTMLUrl:
-        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红html问号名称.html",
-      redHeadOriginalUrl:
-        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红doc问号名称.docx",
-      redHeadPdfUrl:
-        "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红pdf问号名称.pdf",
-      type: "docx",
-      url: "E:\\mybolg\\example\\wps\\myAaassist\\server\\wwwroot\\uploaded\\套红pdf问号名称.pdf",
-    },
-  ];
-
-  const currentFile = fileList[0];
-
-  var fieldObj = {
-    title: "瞧好了，标题插入了",
-    mainSend: "WOWOWOW",
-    copySend: "Reinhold",
-    issUer: "签发人",
-    signingUnit: "落款单位",
-    signatureUnit: "署名单位",
-    issueDate: "签发日期",
-    printDate: "印发日期",
-    creatPerson: "Reinhold",
-    refNo: "2020[0902]号",
-    urgencyLevel: "紧急",
-    secretClass: "密级1",
-    department: "高级的前端部门",
-    units: "发文单位",
-  };
-
-  var bookMarksStart = "正文内容B";
-
-  var bookMarksEnd = "正文内容E";
-
-  const dealDescription = `创建【套红正文】文件`;
-
-  _WpsInvoke(
-    [
-      {
-        OpenDoc: {
-          docId: "902209",
-          uploadPath, // 保存文档上传接口
-          fileName: "正文.docx",
-          filePath: currentFile.noRedHeadOriginalUrl, // 需要编辑的正文
-          newFileName: "取名字真的好难.docx",
-          uploadFieldName, // 设置编辑人名称
-          insertFileUrl: GetDemoPath("wps广西移动公司部门会议纪要.doc"), // 套红模板
-          bkInsertFileStart: bookMarksStart, // 套红开始位置标签
-          bkInsertFileEnd: bookMarksEnd, // 套红结束位置标签
-          bodyTemplateUrl: GetDemoPath("qqqqq.doc"), // 正文模板，一般用不着
-          userName: "dnhyxc",
-          suffix: ".pdf,.html", // 需要保存的文件格式
-          uploadWithAppendPath: "1", // 需要保存的文件 saveType，对应pdf
-
-          // 默认开启修订
-          revisionCtrl: {
-            bOpenRevision: true,
-            bShowRevision: true,
-          },
-
-          // 禁用按钮
-          disabledBtns: "btnAcceptAllRevisions,btnRejectAllRevisions",
-
-          // 屏蔽（隐藏）功能按钮
-          buttonGroups: "btnChangeToPDF,btnChangeToUOT,btnChangeToOFD",
-
-          // 自定义传入wps的字段
-          params: {
-            isNew: true,
-            id: parseInt(Math.random() * 100),
-            orgId: "902209",
-            docId: 123456789,
-            file: currentFile,
-            index: -1,
-            list: fileList,
-            operType: 4,
-            dealDescription,
-            fieldObj, // 需要插入wps中的各类标签字段
-          },
-          openType: {
-            // 文档打开方式
-            // 文档保护类型，-1：不启用保护模式，0：只允许对现有内容进行修订，
-            // 1：只允许添加批注，2：只允许修改窗体域(禁止拷贝功能)，3：只读
-            protectType: -1,
-            // protectType: downloadParams ? 0 : -1,
-            // password: '123456',
-          },
-        },
-      },
-    ],
-    true
-  ); // OpenDoc方法对应于OA助手dispatcher支持的方法名
-}
-
-_wps["editDoc"] = {
-  action: editDoc,
-  code: _WpsInvoke.toString() + "\n\n" + editDoc.toString(),
-  detail:
-    "\n\
-  说明：\n\
-    点击按钮，输入要打开的文档路径，输入文档上传接口，如果传的不是有效的服务端地址，将无法使用保存上传功能。\n\
-    打开WPS文字后,将根据文档路径在线打开对应的文档，保存将自动上传指定服务器地址\n\
-    \n\
-  方法使用：\n\
-    页面点击按钮，通过wps客户端协议来启动WPS，调用oaassist插件，执行传输数据中的指令\n\
-    funcs参数信息说明:\n\
-        OnlineEditDoc方法对应于OA助手dispatcher支持的方法名\n\
-            uploadPath 保存文档上传接口\n\
-            fileName 打开的文档路径\n\
-            uploadFieldName 文档上传到业务系统时自定义字段\n\
-            userName 传给wps要显示的OA用户名\n\
-",
-};
-/**
- * =======================自定义测试================================
- */
 
 /**
  * 这是HTML页面上的按钮赋予事件的实现，开发者无需关心，使用自己习惯的方式做开发即可

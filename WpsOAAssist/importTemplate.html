@@ -101,12 +101,8 @@
             v-model="templateItem"
           >
             <option value="-1">请选择模板</option>
-            <option
-              v-for="(item,key) in templates"
-              :value="item.tempId"
-              :key="key"
-            >
-              {{item.tempName}}
+            <option v-for="(item, key) in templates" :value="key" :key="key">
+              {{item}}
             </option>
           </select>
         </div>
@@ -152,20 +148,32 @@
     }
   }
 
+  const mimeTypeMap = {
+    doc: "application/msword",
+    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  };
+
   // 获取选中项，拼接模板Url进行导入模板
   function OnImportTemplate() {
     var templateId = vm.templateItem;
-    console.log(vm);
+    var curTemp = vm.templates[templateId];
+    console.log(curTemp, "curTemp");
     if (templateId == -1) {
       alert("请选中模板!!");
       return;
     }
+    if (!curTemp.url) {
+      alert("请选中模板!!");
+      return;
+    }
+    const [_, type] = curTemp.name.match(/.([^.]+)$/i) || [];
+    const templateUrl = `${curTemp.url}&contenttype=${mimeTypeMap[type]}`;
     // var p_Doc = wps.WpsApplication().ActiveDocument;
     // var templatePath = GetDocParamsValue(p_Doc, "templatePath");
     // if (templatePath == "") { templatePath = OA_DOOR.templateBaseURL; }
     // var templateURL = templatePath + templateId;
-    var templateURL = getHtmlURL("template/模板.docx");
-    importTemlateFile(templateURL);
+    // var templateURL = getHtmlURL("template/模板.docx");
+    importTemplateFile(templateUrl);
     window.opener = null;
     window.open("", "_self", "");
     window.close();
@@ -182,37 +190,50 @@
     el: "#template",
     data: {
       templateItem: -1,
-      templates: {}
+      templates: []
     },
     methods: {
+      GetTemplatePath(templateDataUrl) {
+        var url = document.location.host;
+        return document.location.protocol + "//" + url + templateDataUrl;
+      },
+
       getAllTemplate: function () {
         var _this = this;
-        //通过接口拉取模板列表
-        // var p_Doc = wps.WpsApplication().ActiveDocument;
-        // var templateDataUrl = GetDocParamsValue(p_Doc, "templateDataUrl");
-        // if (templateDataUrl == "") { templateDataUrl = OA_DOOR.templateDataUrl; }
-        // $.ajax({
-        //     url: templateDataUrl,
-        //     async: false,
-        //     method: "post",
-        //     dataType: 'json',
-        //     success: function (res) {
-        //         _this.templates = res;
-        //         console.log("模板列表数据：" + JSON.stringify(res));
-        //     },
-        //     error: function (res) {
-        //         alert("获取响应失败");
-        //         _this.templates = {}
-        //     }
-        // });
+        // 通过接口拉取模板列表
+        var p_Doc = wps.WpsApplication().ActiveDocument;
+        var l_params = GetDocParamsValue(p_Doc, "params");
+        var templateDataUrl = GetDocParamsValue(p_Doc, "templateDataUrl");
+        if (!templateDataUrl) {
+          alert("获取正文模板失败！");
+          return;
+        }
+        $.ajax({
+          url: templateDataUrl,
+          async: false,
+          method: "post",
+          dataType: "json",
+          //   data: JSON.stringify({
+          //     orgId: l_params.orgId,
+          //   }),
+          success: function (res) {
+            console.log(res, "res>>>>>");
+            _this.templates = res;
+            console.log("模板列表数据：" + JSON.stringify(res));
+          },
+          error: function (res) {
+            alert("获取响应失败");
+            _this.templates = [];
+          }
+        });
 
         //本地静态列表
-        this.templates = [
-          {
-            tempName: "模板",
-            tempId: 1
-          }
-        ];
+        // this.templates = [
+        //   {
+        //     tempName: "模板",
+        //     tempId: 1,
+        //   },
+        // ];
       }
     },
     mounted: function () {

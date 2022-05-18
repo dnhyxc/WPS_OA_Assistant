@@ -1950,11 +1950,11 @@ function GetImage(control) {
     case "btnOpenWPSYUN":
       return "./icon/w_WPSCloud.png"; //打开WPS云文档
     case "btnOpenLocalWPSYUN": //导入文件
-      return "./icon/w_ImportDoc.png";
+      return "./icon/w_ImportFile.png";
     case "btnSaveToServer": //保存到OA后台服务端
-      return "./icon/w_Save.png";
-    case "btnSaveAsFile": //另存为本地文件
       return "./icon/w_SaveAs.png";
+    case "btnSaveAsFile": //另存为本地文件
+      return "./icon/w_Save.png";
     case "btnChangeToPDF": //输出为PDF格式
       return "./icon/w_PDF.png";
     case "btnChangeToUOT": //
