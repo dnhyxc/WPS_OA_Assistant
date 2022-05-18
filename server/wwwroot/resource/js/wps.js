@@ -340,7 +340,6 @@ function customDoc() {
   };
 
   var bookMarksStart = "正文内容B";
-
   var bookMarksEnd = "正文内容E";
 
   const dealDescription = `创建【套红正文】文件`;
@@ -354,7 +353,7 @@ function customDoc() {
           fileName: "",
           newFileName: "问号名称.docx",
           uploadFieldName: uploadFieldName,
-          insertFileUrl: GetDemoPath("wps广西移动公司部门会议纪要.doc"),
+          insertFileUrl: GetDemoPath("会议纪要.doc"),
           bkInsertFileStart: bookMarksStart,
           bkInsertFileEnd: bookMarksEnd,
           bodyTemplateUrl: GetDemoPath("qqqqq.doc"),
@@ -604,10 +603,10 @@ function editDoc() {
           filePath: currentFile.noRedHeadOriginalUrl, // 需要编辑的正文
           newFileName: "取名字真的好难.docx",
           uploadFieldName, // 设置编辑人名称
-          insertFileUrl: GetDemoPath("wps广西移动公司部门会议纪要.doc"), // 套红模板
+          insertFileUrl: GetDemoPath("会议纪要.doc"), // 套红模板
           bkInsertFileStart: bookMarksStart, // 套红开始位置标签
           bkInsertFileEnd: bookMarksEnd, // 套红结束位置标签
-          bodyTemplateUrl: GetDemoPath("qqqqq.doc"), // 正文模板，一般用不着
+          templateDataUrl: '/getTemplateData', // 正文模板，一般用不着
           userName: "dnhyxc",
           suffix: ".pdf,.html", // 需要保存的文件格式
           uploadWithAppendPath: "1", // 需要保存的文件 saveType，对应pdf
