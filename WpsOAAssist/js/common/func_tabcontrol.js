@@ -397,8 +397,8 @@ function pDoChangeToOtherDocFormat(
     if (
       !wps.confirm(
         "当前文档将另存一份" +
-          l_suffix +
-          " 格式的副本，并上传到系统后台，请确认 ？"
+        l_suffix +
+        " 格式的副本，并上传到系统后台，请确认 ？"
       )
     ) {
       return;
@@ -471,7 +471,7 @@ function pDoChangeToOtherDocFormat(
 /**
  * 把文档转换成UOT在上传
  */
-function OnDoChangeToUOF() {}
+function OnDoChangeToUOF() { }
 
 /**
  *  打开WPS云文档的入口
@@ -1642,6 +1642,9 @@ function DisplayGridMacro(wpsApp) {
 /**
  * 文档首行缩进、字符大小、字体格式
  * 由 dnh 设置，时间: 2022/05/09
+ * Selection.SetRange(0, 0) 选中文本开始
+ * Selection.EndKey(wps.Enum.wdStory, wps.Enum.wdMove) 选中文本末尾
+ * wpsApp.ActiveDocument.AcceptAllRevisions() 接受所有修订
  */
 function Macro() {
   const wpsApp = wps.WpsApplication();
@@ -1678,15 +1681,20 @@ function Macro() {
     obj.AddSpaceBetweenFarEastAndDigit = -1;
     obj.BaseLineAlignment = wps.Enum.wdBaselineAlignAuto;
   })(Selection.ParagraphFormat);
-  Selection.SetRange(0, 0);
-  wpsApp.ActiveDocument.AcceptAllRevisions();
+
+  // 不显示修订
+  wpsApp.ActiveWindow.ActivePane.View.RevisionsView = 1
+  wpsApp.ActiveWindow.ActivePane.View.ShowRevisionsAndComments = false
 
   if (!wpsApp.Options.DisplayGridLines) {
-    DisplayGridMacro(wpsApp);
+    DisplayGridMacro(wpsApp)
   } else {
     // AreaGridMacro(wpsApp)
-    GridMacro(wpsApp);
+    GridMacro(wpsApp)
   }
+
+  // Selection.SetRange(0, 0);
+  Selection.EndKey(wps.Enum.wdStory, wps.Enum.wdMove)
 }
 
 function OnFormatClick() {
